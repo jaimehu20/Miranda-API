@@ -1,15 +1,27 @@
 import express, { Request, Response } from "express"
-import { data } from "../data/CustomerData"
-import { Contact } from "../interfaces/contact"
+import { getComments, getComment } from "../services/contact"
 
 export const ContactController = express.Router()
 
-ContactController.get("/customer-reviews", (_req: Request, res: Response) => {
-    res.json(data)
+ContactController.get("/customer-reviews", async (_req: Request, res: Response) => {
+    try {
+        const reviews = await getComments();
+        return res.json(reviews);
+    } catch(error){
+        console.log("error")
+        return res.status(500).json({ error: "Error fetching reviews" });
+    }
 })
 
-ContactController.get("/customer-reviews/:comment_id", (_req: Request, res: Response) => {
-    res.json(data.find((review : Contact) => review.comment_id === parseInt(_req.params.comment_id) ))
+ContactController.get("/customer-reviews/:comment_id", async (_req: Request, res: Response)=> {
+    try {
+        const id = _req.params.comment_id
+        const individualReview = await getComment(id)
+        return res.json(individualReview)
+    } catch(error) {
+        console.log("error")
+        return res.status(500).json({ error: "Error fetching reviews" });
+    }
 })
 
 ContactController.post("/customer-reviews", (_req: Request, res: Response) => {

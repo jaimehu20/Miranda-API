@@ -1,15 +1,28 @@
 import express, {Request, Response } from "express";
-import { data } from "../data/RoomsList"
-import { Room } from "../interfaces/room"
+import { getRooms, getRoom } from "../services/room"
 
 export const RoomController = express.Router();
 
-RoomController.get("/rooms", (_req: Request, res: Response) => {
-    res.json(data);
+RoomController.get("/rooms", async (_req: Request, res: Response) => {
+    try {
+        const allRooms = await getRooms();
+        return res.json(allRooms)
+    } catch(error){
+        console.log("error")
+        return res.status(500).json({ error: "Error fetching rooms" });
+    }
 })
 
-RoomController.get("/rooms/:room_id", (_req: Request, res: Response) => {
-    res.json(data.find((room : Room) => room.room_id === _req.params.room_id))
+RoomController.get("/rooms/:room_id", async (_req: Request, res: Response) => {
+    try {
+        const id = _req.params.room_id
+        const individualRoom = await getRoom(id);
+        return res.json(individualRoom)
+
+    } catch(error){
+        console.log("error")
+        return res.status(500).json({ error: "Error fetching rooms" });
+    }
 })
 
 RoomController.post("/rooms", (_req: Request, res: Response) => {
