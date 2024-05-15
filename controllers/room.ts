@@ -1,5 +1,6 @@
 import express, {Request, Response } from "express";
-import { getRooms, getRoom } from "../services/room"
+import { getRooms, getRoom } from "../services/room";
+import { APISearchError}  from "../utils/APIerror";
 
 export const RoomController = express.Router();
 
@@ -8,8 +9,8 @@ RoomController.get("/rooms", async (_req: Request, res: Response) => {
         const allRooms = await getRooms();
         return res.json(allRooms)
     } catch(error){
-        console.log("error")
-        return res.status(500).json({ error: "Error fetching rooms" });
+        console.error(error)
+        throw new APISearchError(500, "Rooms not found");
     }
 })
 
@@ -20,8 +21,8 @@ RoomController.get("/rooms/:room_id", async (_req: Request, res: Response) => {
         return res.json(individualRoom)
 
     } catch(error){
-        console.log("error")
-        return res.status(500).json({ error: "Error fetching rooms" });
+        console.error(error)
+        throw new APISearchError(500, "Room not found");
     }
 })
 

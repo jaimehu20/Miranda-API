@@ -8,6 +8,7 @@ LoginController.post("/login", async (req: Request, res: Response) => {
         const result = await login(req.body);
         return res.status(200).json(result)
     } catch(error) {
-        return error
+        console.error(error)
+        return
     }
 })

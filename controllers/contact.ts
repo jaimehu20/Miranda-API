@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express"
 import { getComments, getComment } from "../services/contact"
+import { APISearchError}  from "../utils/APIerror"
 
 export const ContactController = express.Router()
 
@@ -8,8 +9,8 @@ ContactController.get("/customer-reviews", async (_req: Request, res: Response) 
         const reviews = await getComments();
         return res.json(reviews);
     } catch(error){
-        console.log("error")
-        return res.status(500).json({ error: "Error fetching reviews" });
+        console.error(error)
+        throw new APISearchError(500, "Reviews not found");
     }
 })
 
@@ -19,8 +20,8 @@ ContactController.get("/customer-reviews/:comment_id", async (_req: Request, res
         const individualReview = await getComment(id)
         return res.json(individualReview)
     } catch(error) {
-        console.log("error")
-        return res.status(500).json({ error: "Error fetching reviews" });
+        console.error(error)
+        throw new APISearchError(500, "Review not found");
     }
 })
 

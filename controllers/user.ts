@@ -1,5 +1,6 @@
-import express, { Request, Response } from "express"
-import { getUsers, getUser } from "../services/user"
+import express, { Request, Response } from "express";
+import { getUsers, getUser } from "../services/user";
+import { APISearchError}  from "../utils/APIerror";
 
 export const UserController = express.Router();
 
@@ -8,8 +9,8 @@ UserController.get("/users", async (_req: Request, res: Response) => {
         const allUsers = await getUsers()
         return res.json(allUsers)
     } catch(error){
-        console.log("error")
-        return res.status(500).json({ error: "Error fetching bookings" });
+        console.error(error)
+        throw new APISearchError(500, "Users not found");
     }
 })
 
@@ -20,8 +21,8 @@ UserController.get("/users/:employee_id", async (_req: Request, res: Response) =
         return res.json(individualUser)
 
     } catch(error){
-        console.log("error")
-        return res.status(500).json({ error: "Error fetching bookings" });
+        console.error(error)
+        throw new APISearchError(500, "User not found");
     }
 })
 

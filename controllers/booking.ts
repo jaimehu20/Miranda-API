@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
-import { getBooking, getBookings } from "../services/booking"
+import { getBooking, getBookings } from "../services/booking";
+import { APISearchError}  from "../utils/APIerror";
 
 export const BookingsController = express.Router();
 
@@ -8,8 +9,8 @@ BookingsController.get("/bookings", async (_req : Request, res : Response) => {
         const allBookings = await getBookings();
         return res.json(allBookings)
     } catch(error){
-        console.log(error)
-        return res.status(500).json({ error: "Error fetching bookings" });
+        console.error(error)
+        throw new APISearchError(500, "Bookings not found");
     }
 })
 
@@ -19,8 +20,8 @@ BookingsController.get("/bookings/:id", async (_req: Request, res: Response) => 
         const individualBooking = await getBooking(id)
         return res.json(individualBooking)
     } catch(error) {
-        console.log(error)
-        return res.status(500).json({ error: "Error fetching bookings" });
+        console.error(error)
+        throw new APISearchError(500, "Booking not found");
     }
 })
 
