@@ -1,27 +1,27 @@
-import express, { Request, Response } from "express"
+import express, { NextFunction, Request, Response } from "express"
 import { getComments, getComment } from "../services/contact"
 import { APISearchError}  from "../utils/APIerror"
 
 export const ContactController = express.Router()
 
-ContactController.get("/customer-reviews", async (_req: Request, res: Response) => {
+ContactController.get("/customer-reviews", async (_req: Request, res: Response, next: NextFunction) => {
     try {
         const reviews = await getComments();
         return res.json(reviews);
     } catch(error){
         console.error(error)
-        throw new APISearchError(500, "Reviews not found");
+        next(error)
     }
 })
 
-ContactController.get("/customer-reviews/:comment_id", async (_req: Request, res: Response)=> {
+ContactController.get("/customer-reviews/:comment_id", async (_req: Request, res: Response, next: NextFunction)=> {
     try {
         const id = _req.params.comment_id
         const individualReview = await getComment(id)
         return res.json(individualReview)
     } catch(error) {
         console.error(error)
-        throw new APISearchError(500, "Review not found");
+        next(error)
     }
 })
 

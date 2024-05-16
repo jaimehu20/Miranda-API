@@ -1,20 +1,19 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { getUsers, getUser } from "../services/user";
-import { APISearchError}  from "../utils/APIerror";
 
 export const UserController = express.Router();
 
-UserController.get("/users", async (_req: Request, res: Response) => {
+UserController.get("/users", async (_req: Request, res: Response, next: NextFunction) => {
     try {
         const allUsers = await getUsers()
         return res.json(allUsers)
     } catch(error){
         console.error(error)
-        throw new APISearchError(500, "Users not found");
+        next(error)
     }
 })
 
-UserController.get("/users/:employee_id", async (_req: Request, res: Response) => {
+UserController.get("/users/:employee_id", async (_req: Request, res: Response, next: NextFunction) => {
     try {
         const id = _req.params.employee_id;
         const individualUser = await getUser(id);
@@ -22,7 +21,7 @@ UserController.get("/users/:employee_id", async (_req: Request, res: Response) =
 
     } catch(error){
         console.error(error)
-        throw new APISearchError(500, "User not found");
+        next(error)
     }
 })
 
