@@ -1,5 +1,5 @@
-import { app } from '../app'
-import serverless from 'serverless-http'
+import { app } from './app'
+import serverless from 'serverless'
 
 export const handler = serverless(app, {
 	response: { headers: { 'Access-Control-Allow-Origin': '*' } }
