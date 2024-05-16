@@ -13,7 +13,7 @@ export const app = express();
 app.use(express.json());
 
 app.get("/", (_req: Request, res: Response) => {
-    res.send("Miranda Hotel API<br/> Available endpoints:<br/> /home<br/> /rooms<br/> /room/:id<br/> /reviews<br/> /review/:id <br/> /staff<br/> /staff/:id<br/> /bookings<br/> /booking/:id<br/>")
+    res.send("Welcome to: <h1>Miranda API</h1> This are available endpoints: <ul> <li>/login</li> <li>/bookings</li> <li>/bookings/:id</li> <li>/rooms</li> <li>/rooms/:id</li> <li>/users</li> <li>/users/:id</li> <li>/customer-reviews</li> <li>/customer-reviews/:id</li> </ul>")
 })
 
 
