@@ -4,6 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
+		"deploy": "npm run build && serverless deploy",
 		"dev": "nodemon - exec 'ts-node' src/app.ts",
 		"build": "rimraf ./dist && tsc",
 		"start": "nodemon server.ts",
@@ -17,6 +18,7 @@
 		"@types/jest": "^29.5.12",
 		"@types/jsonwebtoken": "^9.0.6",
 		"@types/node": "^20.12.11",
+		"@types/serverless": "^3.12.22",
 		"@types/supertest": "^6.0.2",
 		"jest": "^29.7.0",
 		"nodemon": "^3.1.0",

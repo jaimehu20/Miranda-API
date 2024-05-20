@@ -9,7 +9,7 @@ export async function login(data: {email: string, password: string}){
     if (email === "admin@hotelmiranda.com" && password === "1234"){
         const userData = {email, password };
         const token = jwt.sign(userData, process.env.SECRET_TOKEN as string, {expiresIn: "30m"})
-        return { message: "loggin successful", token };
+        return { token };
     } else {
         throw new APISearchError(400, "Invalid email or password")
     }

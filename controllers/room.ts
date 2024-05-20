@@ -7,7 +7,7 @@ export const RoomController = express.Router();
 RoomController.get("/rooms", async (_req: Request, res: Response, next: NextFunction) => {
     try {
         const allRooms = await getRooms();
-        return res.json(allRooms)
+        return res.json({allRooms})
     } catch(error){
         console.error(error)
         next(error)
@@ -18,7 +18,7 @@ RoomController.get("/rooms/:room_id", async (_req: Request, res: Response, next:
     try {
         const id = _req.params.room_id
         const individualRoom = await getRoom(id);
-        return res.json(individualRoom)
+        return res.json({individualRoom})
 
     } catch(error){
         console.error(error)

@@ -7,7 +7,7 @@ export const ContactController = express.Router()
 ContactController.get("/customer-reviews", async (_req: Request, res: Response, next: NextFunction) => {
     try {
         const reviews = await getComments();
-        return res.json(reviews);
+        return res.json({reviews});
     } catch(error){
         console.error(error)
         next(error)
@@ -18,7 +18,7 @@ ContactController.get("/customer-reviews/:comment_id", async (_req: Request, res
     try {
         const id = _req.params.comment_id
         const individualReview = await getComment(id)
-        return res.json(individualReview)
+        return res.json({individualReview})
     } catch(error) {
         console.error(error)
         next(error)

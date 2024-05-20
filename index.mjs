@@ -1,6 +1,6 @@
 import { app } from './app'
-import serverless from 'serverless-http'
+import ServerlessHttp from 'serverless-http'
 
-export const handler = serverless(app, {
+export const handler = ServerlessHttp(app, {
 	response: { headers: { 'Access-Control-Allow-Origin': '*' } }
 })

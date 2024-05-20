@@ -6,7 +6,7 @@ export const UserController = express.Router();
 UserController.get("/users", async (_req: Request, res: Response, next: NextFunction) => {
     try {
         const allUsers = await getUsers()
-        return res.json(allUsers)
+        return res.json({allUsers})
     } catch(error){
         console.error(error)
         next(error)
@@ -17,7 +17,7 @@ UserController.get("/users/:employee_id", async (_req: Request, res: Response, n
     try {
         const id = _req.params.employee_id;
         const individualUser = await getUser(id);
-        return res.json(individualUser)
+        return res.json({individualUser})
 
     } catch(error){
         console.error(error)

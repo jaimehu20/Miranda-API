@@ -7,7 +7,7 @@ export const BookingsController = express.Router();
 BookingsController.get("/bookings", async (req : Request, res : Response, next: NextFunction) => {
     try {
         const allBookings = await getBookings();
-        return res.json(allBookings)
+        return res.json({allBookings})
     } catch(error){
         return next(error)
     }
@@ -17,7 +17,7 @@ BookingsController.get("/bookings/:id", async (req: Request, res: Response, next
     try {
         const id = req.params.id;
         const individualBooking = await getBooking(id)
-        return res.json(individualBooking)
+        return res.json({individualBooking})
     } catch(error) {
         console.log(error)
         next(error)
