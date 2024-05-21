@@ -6,7 +6,7 @@ import { ContactController } from "./controllers/contact"
 import { LoginController } from "./controllers/login"
 import { verifyAccessToken } from "./middleware/auth"
 import { errorHandler } from "./utils/ErrorHandler"
-
+const dbConnect = require("./connection")
 
 export const app = express();
 
