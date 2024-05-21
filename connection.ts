@@ -1,5 +1,5 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
-const connection = "mongodb://localhost:27017/HotelMirandaDB"
+const HotelMirandaDB = "mongodb://localhost:27017/HotelMirandaDB"
 
-mongoose.connect(connection)
+mongoose.connect(HotelMirandaDB)

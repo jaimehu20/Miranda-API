@@ -1,5 +1,6 @@
 import { data } from "../data/RoomsList"
 import { Room } from "../interfaces/room"
+import { RoomModel } from "../models/rooms"
 import { APISearchError}  from "../utils/APIerror"
 
 export async function getRooms(): Promise<Room[]>{
@@ -15,4 +16,14 @@ export async function getRoom(id : string): Promise<Room>{
         throw new APISearchError(404, `Room with id ${id} not found`)
     }
     return individualRoom as Room
+}
+
+export async function AddRooms(room : Room){
+    const addedRoom = RoomModel.insertMany(room)
+    return addedRoom;
+}
+
+export async function DeleteRooms(id : any){
+    const deletedRoom = RoomModel.deleteMany(id)
+    return deletedRoom
 }

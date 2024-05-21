@@ -1,10 +1,9 @@
 import express, {NextFunction, Request, Response } from "express";
-import { getRooms, getRoom } from "../services/room";
-import { APISearchError}  from "../utils/APIerror";
+import { getRooms, getRoom, AddRooms, DeleteRooms } from "../services/room";
 
 export const RoomController = express.Router();
 
-RoomController.get("/rooms", async (_req: Request, res: Response, next: NextFunction) => {
+RoomController.get("/rooms", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const allRooms = await getRooms();
         return res.json({allRooms})
@@ -14,9 +13,9 @@ RoomController.get("/rooms", async (_req: Request, res: Response, next: NextFunc
     }
 })
 
-RoomController.get("/rooms/:room_id", async (_req: Request, res: Response, next: NextFunction) => {
+RoomController.get("/rooms/:room_id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const id = _req.params.room_id
+        const id = req.params.room_id
         const individualRoom = await getRoom(id);
         return res.json({individualRoom})
 
@@ -26,14 +25,25 @@ RoomController.get("/rooms/:room_id", async (_req: Request, res: Response, next:
     }
 })
 
-RoomController.post("/rooms", (_req: Request, res: Response) => {
-    res.json("post new room")
+RoomController.post("/rooms", (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const addRoom = AddRooms(req.body)
+        res.json("Room added")
+    } catch(error){
+        next(error)
+    }
 })
 
-RoomController.post("/rooms/:room_id", (_req: Request, res: Response) => {
+RoomController.delete("/rooms/:room_id", (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const id = req.params.id
+        const deleteRoom = DeleteRooms({id})
+        res.json(`Room with id ${id} deleted succesfully`)
+    } catch(error){
+        next(error)
+    }
+})
+
+RoomController.patch("/rooms/:room_id", (req: Request, res: Response) => {
     res.json("patch room")
-})
-
-RoomController.post("/rooms/:room_id", (_req: Request, res: Response) => {
-    res.json("delete room")
 })

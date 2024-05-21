@@ -2,7 +2,7 @@
 import { data } from "../data/OrderData"
 import { Booking } from "../interfaces/booking"
 import { APISearchError}  from "../utils/APIerror"
-import { bookingModel } from "../models/bookings"
+import { BookingModel } from "../models/bookings"
 
 export async function getBookings(): Promise<Booking[]>{
     if (!data){
@@ -20,11 +20,11 @@ export async function getBooking(id : string): Promise<Booking>{
 }
 
 export async function AddBookings(booking : Booking){
-    const addedBooking = bookingModel.insertMany(booking);
+    const addedBooking = BookingModel.insertMany(booking);
     return addedBooking
 }
 
 export async function DeleteBookings(id : any){
-    const deletedBooking = bookingModel.deleteOne(id);
+    const deletedBooking = BookingModel.deleteMany(id);
     return deletedBooking
 }

@@ -25,8 +25,18 @@ BookingsController.get("/bookings/:id", async (req: Request, res: Response, next
 
 BookingsController.post("/bookings", (req: Request, res: Response, next: NextFunction) => {
     try {
-        const añadir = AddBookings(req.body)
+        const addBooking = AddBookings(req.body)
         res.json("Booking added")
+    } catch(error){
+        next(error)
+    }
+})
+
+BookingsController.delete("/bookings/:id", (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const id = req.params.id;
+        const deleteBooking = DeleteBookings({id})
+        res.json(`Booking with id ${id} deleted succesfully`);
     } catch(error){
         next(error)
     }
@@ -34,14 +44,4 @@ BookingsController.post("/bookings", (req: Request, res: Response, next: NextFun
 
 BookingsController.patch("/bookings:id", (req : Request, res: Response) => {
     res.send("patch")
-})
-
-BookingsController.delete("/bookings:id", (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const id = req.params.id;
-        const deleteBooking = DeleteBookings(req.params.id)
-        res.json(`Booking with id ${req.params.id} deleted succesfully`);
-    } catch(error){
-        next(error)
-    }
 })

@@ -3,7 +3,7 @@ import { User } from "../interfaces/user"
 
 const UserSchema = new Schema<User>({
     employee_name: {type: String, required: true},
-    employee_id: {type: String, required: true},
+    employee_id: {type: String, required: true, unique: true},
     employee_email: {type: String, required: true},
     employee_startDate: {type: String, required: true},
     employee_description: {type: String, required: true},
@@ -11,4 +11,4 @@ const UserSchema = new Schema<User>({
     employee_status: {type: String, required: true}
 })
 
-const user = model<User>('User', UserSchema);
+export const UserModel = model<User>('User', UserSchema);

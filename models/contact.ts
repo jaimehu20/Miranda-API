@@ -4,7 +4,7 @@ import { Contact } from "../interfaces/contact"
 const ContactSchema = new Schema<Contact>({
     comment_info: {type: String, required: true},
     comment_hour: {type: String, required: true},
-    comment_id: {type: Number, required: true},
+    comment_id: {type: Number, required: true, unique: true},
     comment_customer: {type: String, required: true},
     comment_customerMail: {type: String, required: true},
     comment_customerPhone: {type: String, required: true},

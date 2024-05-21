@@ -11,7 +11,6 @@ export function verifyAccessToken(req: Request, res: Response, next: NextFunctio
     const token = header.split('Bearer ')[1];
     try {
         const tokenData = jwt.verify(token, process.env.SECRET_TOKEN as string)
-        console.log(tokenData)
         next()
     } catch(error) {
         return res.status(401).json({ error: true, message: "Not authorized"})

@@ -1,9 +1,9 @@
 import express, { NextFunction, Request, Response } from "express";
-import { getUsers, getUser } from "../services/user";
+import { getUsers, getUser, AddUsers, DeleteUsers } from "../services/user";
 
 export const UserController = express.Router();
 
-UserController.get("/users", async (_req: Request, res: Response, next: NextFunction) => {
+UserController.get("/users", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const allUsers = await getUsers()
         return res.json({allUsers})
@@ -13,9 +13,9 @@ UserController.get("/users", async (_req: Request, res: Response, next: NextFunc
     }
 })
 
-UserController.get("/users/:employee_id", async (_req: Request, res: Response, next: NextFunction) => {
+UserController.get("/users/:employee_id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const id = _req.params.employee_id;
+        const id = req.params.employee_id;
         const individualUser = await getUser(id);
         return res.json({individualUser})
 
@@ -25,14 +25,25 @@ UserController.get("/users/:employee_id", async (_req: Request, res: Response, n
     }
 })
 
-UserController.post("/users", (_req: Request, res: Response) => {
-    res.json("new user")
+UserController.post("/users", (req: Request, res: Response, next: NextFunction) => {
+    try {   
+        const addUser = AddUsers(req.body)
+        res.json("User added")
+    } catch(error){
+        next(error)
+    }
 })
 
-UserController.post("/users/:employee_id", (_req: Request, res: Response) => {
+UserController.delete("/users/:employee_id", (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const id = req.params.id;
+        const deleteUser = DeleteUsers({id})
+        res.json(`User with id ${id} deleted succesfully`)
+    } catch(error) {
+        next(error)
+    }
+})
+
+UserController.patch("/users/:employee_id", (req: Request, res: Response) => {
     res.json("patch user")
-})
-
-UserController.post("/users/:employee_id", (_req: Request, res: Response) => {
-    res.json("delete user")
 })
