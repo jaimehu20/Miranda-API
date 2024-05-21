@@ -9,7 +9,10 @@ export async function getRooms(): Promise<Room[]>{
 }
 
 export async function getRoom(id : string): Promise<Room>{
-    const individualRoom = RoomModel.findOne({room_id : id})
+    const individualRoom = await RoomModel.findOne({room_id : id})
+    if (!individualRoom){
+        throw new APISearchError(404, `Room with id ${id} not found`)
+    }
     return individualRoom as any
 }
 

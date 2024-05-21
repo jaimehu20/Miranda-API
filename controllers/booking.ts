@@ -35,7 +35,7 @@ BookingsController.post("/bookings", (req: Request, res: Response, next: NextFun
 BookingsController.delete("/bookings/:id", (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = req.params.id;
-        const deleteBooking = DeleteBookings({id})
+        const deleteBooking = DeleteBookings(id)
         res.json(`Booking with id ${id} deleted succesfully`);
     } catch(error){
         next(error)

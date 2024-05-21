@@ -9,7 +9,10 @@ export async function getUsers(): Promise<User[]>{
 }
 
 export async function getUser(id : string): Promise<User>{
-    const individualUser = UserModel.findOne({employee_id : id})
+    const individualUser = await UserModel.findOne({employee_id : id})
+    if (!individualUser){
+        throw new APISearchError(404, `User with id ${id} not found`)
+    }
     return individualUser as any
 }
 
