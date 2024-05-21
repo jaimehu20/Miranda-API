@@ -18,7 +18,6 @@ RoomController.get("/rooms/:room_id", async (req: Request, res: Response, next: 
         const id = req.params.room_id
         const individualRoom = await getRoom(id);
         return res.json({individualRoom})
-
     } catch(error){
         console.error(error)
         next(error)
@@ -37,8 +36,8 @@ RoomController.post("/rooms", (req: Request, res: Response, next: NextFunction) 
 RoomController.delete("/rooms/:room_id", (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = req.params.id
-        const deleteRoom = DeleteRooms({id})
-        res.json(`Room with id ${id} deleted succesfully`)
+        const deleteRoom = DeleteRooms(id)
+        res.json(`Room with id ${req.params.room_id} deleted succesfully`)
     } catch(error){
         next(error)
     }

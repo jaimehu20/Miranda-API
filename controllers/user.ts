@@ -36,7 +36,7 @@ UserController.post("/users", (req: Request, res: Response, next: NextFunction) 
 
 UserController.delete("/users/:employee_id", (req: Request, res: Response, next: NextFunction) => {
     try {
-        const id = req.params.id;
+        const id = req.params.employee_id;
         const deleteUser = DeleteUsers({id})
         res.json(`User with id ${id} deleted succesfully`)
     } catch(error) {

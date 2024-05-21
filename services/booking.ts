@@ -5,18 +5,13 @@ import { APISearchError}  from "../utils/APIerror"
 import { BookingModel } from "../models/bookings"
 
 export async function getBookings(): Promise<Booking[]>{
-    if (!data){
-        throw new APISearchError(404, "Bookings not found")
-    }
-    return data
+    const bookingsData = BookingModel.find();
+    return bookingsData
 }
 
 export async function getBooking(id : string): Promise<Booking>{
-    const individualBooking = data.find((booking) => booking.id === id);
-    if (!individualBooking){
-        throw new APISearchError(404, `Booking with id ${id} not found`)
-    }
-    return individualBooking as Booking
+    const individualBooking = BookingModel.findOne({id : id})
+    return individualBooking as any
 }
 
 export async function AddBookings(booking : Booking){

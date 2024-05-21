@@ -4,18 +4,13 @@ import { RoomModel } from "../models/rooms"
 import { APISearchError}  from "../utils/APIerror"
 
 export async function getRooms(): Promise<Room[]>{
-    if (!data){
-        throw new APISearchError(404, "Rooms not found")
-    }
-    return data
+    const roomsData = RoomModel.find()
+    return roomsData
 }
 
 export async function getRoom(id : string): Promise<Room>{
-    const individualRoom = data.find((room) => room.room_id === id)
-    if (!individualRoom){
-        throw new APISearchError(404, `Room with id ${id} not found`)
-    }
-    return individualRoom as Room
+    const individualRoom = RoomModel.findOne({room_id : id})
+    return individualRoom as any
 }
 
 export async function AddRooms(room : Room){
@@ -24,6 +19,6 @@ export async function AddRooms(room : Room){
 }
 
 export async function DeleteRooms(id : any){
-    const deletedRoom = RoomModel.deleteMany(id)
-    return deletedRoom
+    const RoomToDelete = RoomModel.findByIdAndDelete(id)
+    return RoomToDelete
 }

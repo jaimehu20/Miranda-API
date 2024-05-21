@@ -4,18 +4,13 @@ import { APISearchError}  from "../utils/APIerror"
 import { UserModel } from "../models/users"
 
 export async function getUsers(): Promise<User[]>{
-    if (!data){
-        throw new APISearchError(404, "Users not found")
-    }
-    return data
+    const usersData = UserModel.find()
+    return usersData
 }
 
 export async function getUser(id : string): Promise<User>{
-    const individualUser = data.find((employee) => employee.employee_id === id)
-    if (!individualUser){
-        throw new APISearchError(404, `User with id ${id} not found`)
-    }
-    return individualUser as User
+    const individualUser = UserModel.findOne({employee_id : id})
+    return individualUser as any
 }
 
 export async function AddUsers(user: User){

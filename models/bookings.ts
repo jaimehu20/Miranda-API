@@ -13,7 +13,7 @@ const BookingSchema = new Schema<Booking>({
     checkOut_hour: {type: String, required: true},
     room_type: {type: String, required: true},
     status: {type: String, required: true}
-})
+},{ versionKey: false })
 
 export const BookingModel = model<Booking>('Booking', BookingSchema);
  

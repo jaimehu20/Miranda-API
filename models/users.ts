@@ -9,6 +9,6 @@ const UserSchema = new Schema<User>({
     employee_description: {type: String, required: true},
     employee_phone: {type: String, required: true},
     employee_status: {type: String, required: true}
-})
+},{ _id : false, autoIndex: false })
 
 export const UserModel = model<User>('User', UserSchema);
