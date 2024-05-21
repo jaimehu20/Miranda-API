@@ -24,3 +24,8 @@ export async function DeleteBookings(id : any){
     const deletedBooking = BookingModel.findOneAndDelete({id : id});
     return deletedBooking
 }
+
+export async function UpdateBookings(id : any, body : any){
+    const updatedBooking = BookingModel.findOneAndUpdate({id : id}, body, {new: true})
+    return updatedBooking
+}

@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
-import { getUsers, getUser, AddUsers, DeleteUsers } from "../services/user";
+import { getUsers, getUser, AddUsers, DeleteUsers, UpdateUsers } from "../services/user";
 
 export const UserController = express.Router();
 
@@ -25,25 +25,31 @@ UserController.get("/users/:employee_id", async (req: Request, res: Response, ne
     }
 })
 
-UserController.post("/users", (req: Request, res: Response, next: NextFunction) => {
+UserController.post("/users", async (req: Request, res: Response, next: NextFunction) => {
     try {   
         const addUser = AddUsers(req.body)
-        res.json("User added")
+        res.json("User added successfully")
     } catch(error){
         next(error)
     }
 })
 
-UserController.delete("/users/:employee_id", (req: Request, res: Response, next: NextFunction) => {
+UserController.delete("/users/:employee_id", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = req.params.employee_id;
-        const deleteUser = DeleteUsers({id})
+        const deleteUser = await DeleteUsers(id)
         res.json(`User with id ${id} deleted succesfully`)
     } catch(error) {
         next(error)
     }
 })
 
-UserController.patch("/users/:employee_id", (req: Request, res: Response) => {
-    res.json("patch user")
+UserController.patch("/users/:employee_id", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const id = req.params.employee_id
+        const updateUser = await UpdateUsers(id, req.body)
+        res.json(`User with id ${id} updated successfully`)
+    } catch(error){
+        next(error)
+    }
 })

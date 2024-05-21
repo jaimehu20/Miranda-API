@@ -9,6 +9,6 @@ const ContactSchema = new Schema<Contact>({
     comment_customerMail: {type: String, required: true},
     comment_customerPhone: {type: String, required: true},
     comment_review: {type: String, required: true}
-},{ _id : false, autoIndex: false })
+},{ versionKey: false })
 
 export const ContactModel = model<Contact>('Contact', ContactSchema);

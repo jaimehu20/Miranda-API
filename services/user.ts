@@ -22,6 +22,11 @@ export async function AddUsers(user: User){
 }
 
 export async function DeleteUsers(id : any){
-    const deletedUser = UserModel.deleteMany(id)
+    const deletedUser = UserModel.findOneAndDelete({employee_id : id})
     return deletedUser
+}
+
+export async function UpdateUsers(id : any, body : any){
+    const updatedRoom = UserModel.findOneAndUpdate({employee_id: id}, body, {new: true})
+    return updatedRoom
 }

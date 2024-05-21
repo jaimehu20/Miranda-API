@@ -9,6 +9,6 @@ const RoomSchema = new Schema<Room>({
     room_amenities: {type: String, required: true},
     room_rate: {type: String, required: true},
     room_status: {type: String, required: true}
-},{ _id : false, autoIndex: false })
+},{ versionKey: false })
 
 export const RoomModel = model<Room>('Room', RoomSchema);

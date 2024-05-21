@@ -22,6 +22,11 @@ export async function AddRooms(room : Room){
 }
 
 export async function DeleteRooms(id : any){
-    const RoomToDelete = RoomModel.findByIdAndDelete(id)
-    return RoomToDelete
+    const deletedRoom = RoomModel.findOneAndDelete({room_id : id})
+    return deletedRoom
+}
+
+export async function UpdateRooms(id : any, body : any){
+    const updatedRoom = RoomModel.findOneAndUpdate({id : id}, body, {new: true})
+    return updatedRoom
 }
