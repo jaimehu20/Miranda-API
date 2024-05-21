@@ -15,5 +15,5 @@ const BookingSchema = new Schema<Booking>({
     status: {type: String, required: true}
 })
 
-const booking = model<Booking>('Booking', BookingSchema);
+export const bookingModel = model<Booking>('Booking', BookingSchema);
  
