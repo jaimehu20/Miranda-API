@@ -1,10 +1,9 @@
 import express, { NextFunction, Request, Response } from "express"
 import { getComments, getComment } from "../services/contact"
-import { APISearchError}  from "../utils/APIerror"
 
-export const ContactController = express.Router()
+export const ReviewController = express.Router()
 
-ContactController.get("/customer-reviews", async (req: Request, res: Response, next: NextFunction) => {
+ReviewController.get("/customer-reviews", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const reviews = await getComments();
         return res.json({reviews});
@@ -14,7 +13,7 @@ ContactController.get("/customer-reviews", async (req: Request, res: Response, n
     }
 })
 
-ContactController.get("/customer-reviews/:id", async (req: Request, res: Response, next: NextFunction)=> {
+ReviewController.get("/customer-reviews/:id", async (req: Request, res: Response, next: NextFunction)=> {
     try {
         const id = req.params.id
         const individualReview = await getComment(id)
@@ -25,14 +24,14 @@ ContactController.get("/customer-reviews/:id", async (req: Request, res: Respons
     }
 })
 
-ContactController.post("/customer-reviews", (req: Request, res: Response) => {
+ReviewController.post("/customer-reviews", (req: Request, res: Response) => {
     res.json("post review")
 })
 
-ContactController.post("/customer-reviews/:id", (req: Request, res: Response) => {
+ReviewController.post("/customer-reviews/:id", (req: Request, res: Response) => {
     res.json("patch review")
 })
 
-ContactController.post("/customer-reviews/:id", (req: Request, res: Response) => {
+ReviewController.post("/customer-reviews/:id", (req: Request, res: Response) => {
     res.json("delete review")
 })

@@ -1,4 +1,3 @@
-import { data } from "../data/RoomsList"
 import { Room } from "../interfaces/room"
 import { RoomModel } from "../models/rooms"
 import { APISearchError}  from "../utils/APIerror"
