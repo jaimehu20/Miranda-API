@@ -9,7 +9,7 @@ export async function getUsers(): Promise<User[]>{
 }
 
 export async function getUser(id : string): Promise<User>{
-    const individualUser = await UserModel.findOne({employee_id : id})
+    const individualUser = await UserModel.findById({_id : id})
     if (!individualUser){
         throw new APISearchError(404, `User with id ${id} not found`)
     }
@@ -22,11 +22,11 @@ export async function AddUsers(user: User){
 }
 
 export async function DeleteUsers(id : any){
-    const deletedUser = UserModel.findOneAndDelete({employee_id : id})
+    const deletedUser = UserModel.findOneAndDelete({_id : id})
     return deletedUser
 }
 
 export async function UpdateUsers(id : any, body : any){
-    const updatedRoom = UserModel.findOneAndUpdate({employee_id: id}, body, {new: true})
+    const updatedRoom = UserModel.findOneAndUpdate({_id: id}, body, {new: true})
     return updatedRoom
 }

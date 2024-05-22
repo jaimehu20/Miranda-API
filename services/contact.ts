@@ -9,7 +9,7 @@ export async function getComments(): Promise<Contact[]>{
 }
 
 export async function getComment(id : string): Promise<Contact>{
-    const individualReview = await ContactModel.findOne({comment_id : id})
+    const individualReview = await ContactModel.findOne({_id: id})
     if (!individualReview){
         throw new APISearchError(404, `Customer review with id ${id} not found`)
     }

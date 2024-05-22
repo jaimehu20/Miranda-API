@@ -9,7 +9,7 @@ export async function getRooms(): Promise<Room[]>{
 }
 
 export async function getRoom(id : string): Promise<Room>{
-    const individualRoom = await RoomModel.findOne({room_id : id})
+    const individualRoom = await RoomModel.findById({_id: id})
     if (!individualRoom){
         throw new APISearchError(404, `Room with id ${id} not found`)
     }
@@ -22,11 +22,11 @@ export async function AddRooms(room : Room){
 }
 
 export async function DeleteRooms(id : any){
-    const deletedRoom = RoomModel.findOneAndDelete({room_id : id})
+    const deletedRoom = RoomModel.findOneAndDelete({_id: id})
     return deletedRoom
 }
 
 export async function UpdateRooms(id : any, body : any){
-    const updatedRoom = RoomModel.findOneAndUpdate({id : id}, body, {new: true})
+    const updatedRoom = RoomModel.findOneAndUpdate({_id: id}, body, {new: true})
     return updatedRoom
 }

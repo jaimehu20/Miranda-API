@@ -13,9 +13,9 @@ RoomController.get("/rooms", async (req: Request, res: Response, next: NextFunct
     }
 })
 
-RoomController.get("/rooms/:room_id", async (req: Request, res: Response, next: NextFunction) => {
+RoomController.get("/rooms/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const id = req.params.room_id
+        const id = req.params.id;
         const individualRoom = await getRoom(id);
         return res.json({individualRoom})
     } catch(error){
@@ -33,19 +33,19 @@ RoomController.post("/rooms", async (req: Request, res: Response, next: NextFunc
     }
 })
 
-RoomController.delete("/rooms/:room_id", async (req: Request, res: Response, next: NextFunction) => {
+RoomController.delete("/rooms/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const id = req.params.room_id
+        const id = req.params.id;
         const deleteRoom = await DeleteRooms(id)
-        res.json(`Room with id ${req.params.room_id} deleted successfully`)
+        res.json(`Room with id ${id} deleted successfully`)
     } catch(error){
         next(error)
     }
 })
 
-RoomController.patch("/rooms/:room_id", async (req: Request, res: Response, next: NextFunction) => {
+RoomController.patch("/rooms/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const id = req.params.room_id
+        const id = req.params.id;
         const updateRoom = await UpdateRooms(id, req.body)
         res.json(`Room with id ${id} updated successfully`)
     } catch(error){

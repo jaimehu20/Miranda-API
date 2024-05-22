@@ -4,7 +4,7 @@ import { APISearchError}  from "../utils/APIerror"
 
 export const ContactController = express.Router()
 
-ContactController.get("/customer-reviews", async (_req: Request, res: Response, next: NextFunction) => {
+ContactController.get("/customer-reviews", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const reviews = await getComments();
         return res.json({reviews});
@@ -14,9 +14,9 @@ ContactController.get("/customer-reviews", async (_req: Request, res: Response, 
     }
 })
 
-ContactController.get("/customer-reviews/:comment_id", async (_req: Request, res: Response, next: NextFunction)=> {
+ContactController.get("/customer-reviews/:id", async (req: Request, res: Response, next: NextFunction)=> {
     try {
-        const id = _req.params.comment_id
+        const id = req.params.id
         const individualReview = await getComment(id)
         return res.json({individualReview})
     } catch(error) {
@@ -25,14 +25,14 @@ ContactController.get("/customer-reviews/:comment_id", async (_req: Request, res
     }
 })
 
-ContactController.post("/customer-reviews", (_req: Request, res: Response) => {
+ContactController.post("/customer-reviews", (req: Request, res: Response) => {
     res.json("post review")
 })
 
-ContactController.post("/customer-reviews/:comment_id", (_req: Request, res: Response) => {
+ContactController.post("/customer-reviews/:id", (req: Request, res: Response) => {
     res.json("patch review")
 })
 
-ContactController.post("/customer-reviews/:comment_id", (_req: Request, res: Response) => {
+ContactController.post("/customer-reviews/:id", (req: Request, res: Response) => {
     res.json("delete review")
 })

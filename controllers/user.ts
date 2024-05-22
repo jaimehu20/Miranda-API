@@ -13,9 +13,9 @@ UserController.get("/users", async (req: Request, res: Response, next: NextFunct
     }
 })
 
-UserController.get("/users/:employee_id", async (req: Request, res: Response, next: NextFunction) => {
+UserController.get("/users/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const id = req.params.employee_id;
+        const id = req.params.id;
         const individualUser = await getUser(id);
         return res.json({individualUser})
 
@@ -34,9 +34,9 @@ UserController.post("/users", async (req: Request, res: Response, next: NextFunc
     }
 })
 
-UserController.delete("/users/:employee_id", async (req: Request, res: Response, next: NextFunction) => {
+UserController.delete("/users/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const id = req.params.employee_id;
+        const id = req.params.id;
         const deleteUser = await DeleteUsers(id)
         res.json(`User with id ${id} deleted succesfully`)
     } catch(error) {
@@ -44,9 +44,9 @@ UserController.delete("/users/:employee_id", async (req: Request, res: Response,
     }
 })
 
-UserController.patch("/users/:employee_id", async (req: Request, res: Response, next: NextFunction) => {
+UserController.patch("/users/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const id = req.params.employee_id
+        const id = req.params.id
         const updateUser = await UpdateUsers(id, req.body)
         res.json(`User with id ${id} updated successfully`)
     } catch(error){

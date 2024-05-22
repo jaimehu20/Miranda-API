@@ -2,7 +2,6 @@ import { Schema, model, connect } from "mongoose"
 import { Booking } from "../interfaces/booking"
 
 const BookingSchema = new Schema<Booking>({
-    id: {type: String, required: true, unique: true},
     first_name: {type: String, required: true},
     last_name: {type: String, required: true},
     order_date: {type: String, required: true},

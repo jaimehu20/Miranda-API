@@ -8,7 +8,7 @@ export async function getBookings(): Promise<Booking[]>{
 }
 
 export async function getBooking(id : string): Promise<Booking>{
-    const individualBooking = await BookingModel.findOne({id : id})
+    const individualBooking = await BookingModel.findById({_id: id})
     if (!individualBooking){
         throw new APISearchError(404, `Booking with id ${id} not found`)
     }
@@ -21,11 +21,11 @@ export async function AddBookings(booking : Booking){
 }
 
 export async function DeleteBookings(id : any){
-    const deletedBooking = BookingModel.findOneAndDelete({id : id});
+    const deletedBooking = BookingModel.findOneAndDelete({_id: id});
     return deletedBooking
 }
 
 export async function UpdateBookings(id : any, body : any){
-    const updatedBooking = BookingModel.findOneAndUpdate({id : id}, body, {new: true})
+    const updatedBooking = BookingModel.findOneAndUpdate({_id: id}, body, {new: true})
     return updatedBooking
 }
