@@ -1,9 +1,9 @@
 import express, { NextFunction, Request, Response } from "express";
 import { getUsers, getUser, AddUsers, DeleteUsers, UpdateUsers } from "../services/user";
 
-export const UserController = express.Router();
+export const EmployeeController = express.Router();
 
-UserController.get("/users", async (req: Request, res: Response, next: NextFunction) => {
+EmployeeController.get("/employees", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const allUsers = await getUsers()
         return res.json({allUsers})
@@ -13,7 +13,7 @@ UserController.get("/users", async (req: Request, res: Response, next: NextFunct
     }
 })
 
-UserController.get("/users/:id", async (req: Request, res: Response, next: NextFunction) => {
+EmployeeController.get("/employees/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = req.params.id;
         const individualUser = await getUser(id);
@@ -25,7 +25,7 @@ UserController.get("/users/:id", async (req: Request, res: Response, next: NextF
     }
 })
 
-UserController.post("/users", async (req: Request, res: Response, next: NextFunction) => {
+EmployeeController.post("/employees", async (req: Request, res: Response, next: NextFunction) => {
     try {   
         const addUser = AddUsers(req.body)
         res.json("User added successfully")
@@ -34,7 +34,7 @@ UserController.post("/users", async (req: Request, res: Response, next: NextFunc
     }
 })
 
-UserController.delete("/users/:id", async (req: Request, res: Response, next: NextFunction) => {
+EmployeeController.delete("/employees/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = req.params.id;
         const deleteUser = await DeleteUsers(id)
@@ -44,7 +44,7 @@ UserController.delete("/users/:id", async (req: Request, res: Response, next: Ne
     }
 })
 
-UserController.patch("/users/:id", async (req: Request, res: Response, next: NextFunction) => {
+EmployeeController.patch("/employees/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = req.params.id
         const updateUser = await UpdateUsers(id, req.body)
