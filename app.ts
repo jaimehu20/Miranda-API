@@ -1,12 +1,12 @@
 import express, { Request, Response } from "express"
 import {BookingsController } from "./controllers/booking"
 import { RoomController } from "./controllers/room"
-import { UserController } from "./controllers/user"
-import { ContactController } from "./controllers/contact"
+import { EmployeeController } from "./controllers/user"
+import { ReviewController } from "./controllers/review"
 import { LoginController } from "./controllers/login"
 import { verifyAccessToken } from "./middleware/auth"
 import { errorHandler } from "./utils/ErrorHandler"
-
+const dbConnect = require("./connection")
 
 export const app = express();
 
@@ -20,7 +20,7 @@ app.get("/", (_req: Request, res: Response) => {
 app.use(LoginController)
 app.use(verifyAccessToken, BookingsController);
 app.use(verifyAccessToken, RoomController);
-app.use(verifyAccessToken, UserController)
-app.use(verifyAccessToken, ContactController)
+app.use(verifyAccessToken, EmployeeController)
+app.use(verifyAccessToken, ReviewController)
 
 app.use(errorHandler)

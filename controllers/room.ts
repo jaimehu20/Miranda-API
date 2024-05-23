@@ -1,10 +1,9 @@
 import express, {NextFunction, Request, Response } from "express";
-import { getRooms, getRoom } from "../services/room";
-import { APISearchError}  from "../utils/APIerror";
+import { getRooms, getRoom, AddRooms, DeleteRooms, UpdateRooms } from "../services/room";
 
 export const RoomController = express.Router();
 
-RoomController.get("/rooms", async (_req: Request, res: Response, next: NextFunction) => {
+RoomController.get("/rooms", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const allRooms = await getRooms();
         return res.json({allRooms})
@@ -14,26 +13,42 @@ RoomController.get("/rooms", async (_req: Request, res: Response, next: NextFunc
     }
 })
 
-RoomController.get("/rooms/:room_id", async (_req: Request, res: Response, next: NextFunction) => {
+RoomController.get("/rooms/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const id = _req.params.room_id
+        const id = req.params.id;
         const individualRoom = await getRoom(id);
         return res.json({individualRoom})
-
     } catch(error){
         console.error(error)
         next(error)
     }
 })
 
-RoomController.post("/rooms", (_req: Request, res: Response) => {
-    res.json("post new room")
+RoomController.post("/rooms", async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const addRoom = AddRooms(req.body)
+        res.json("Room added successfully")
+    } catch(error){
+        next(error)
+    }
 })
 
-RoomController.post("/rooms/:room_id", (_req: Request, res: Response) => {
-    res.json("patch room")
+RoomController.delete("/rooms/:id", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const id = req.params.id;
+        const deleteRoom = await DeleteRooms(id)
+        res.json(`Room with id ${id} deleted successfully`)
+    } catch(error){
+        next(error)
+    }
 })
 
-RoomController.post("/rooms/:room_id", (_req: Request, res: Response) => {
-    res.json("delete room")
+RoomController.patch("/rooms/:id", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const id = req.params.id;
+        const updateRoom = await UpdateRooms(id, req.body)
+        res.json(`Room with id ${id} updated successfully`)
+    } catch(error){
+        next(error)
+    }
 })

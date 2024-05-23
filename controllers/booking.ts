@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
-import { getBooking, getBookings } from "../services/booking";
-import { APISearchError}  from "../utils/APIerror";
+import { getBooking, getBookings, AddBookings, DeleteBookings, UpdateBookings } from "../services/booking";
+
+
 
 export const BookingsController = express.Router();
 
@@ -19,19 +20,35 @@ BookingsController.get("/bookings/:id", async (req: Request, res: Response, next
         const individualBooking = await getBooking(id)
         return res.json({individualBooking})
     } catch(error) {
-        console.log(error)
         next(error)
     }
 })
 
-BookingsController.post("/bookings", (req: Request, res: Response) => {
-    res.send("post")
+BookingsController.post("/bookings", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const addBooking = await AddBookings(req.body)
+        res.json("Booking added successfully")
+    } catch(error){
+        next(error)
+    }
 })
 
-BookingsController.post("/bookings:id", (req : Request, res: Response) => {
-    res.send("patch")
+BookingsController.delete("/bookings/:id", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const id = req.params.id;
+        const deleteBooking = await DeleteBookings(id)
+        res.json(`Booking with id ${id} deleted successfully`);
+    } catch(error){
+        next(error)
+    }
 })
 
-BookingsController.post("/bookings:id", (req: Request, res: Response) => {
-    res.send("delete");
+BookingsController.patch("/bookings/:id", async (req : Request, res: Response, next: NextFunction) => {
+    try {
+        const id = req.params.id;
+        const updateBooking = await UpdateBookings(id, req.body)
+        res.json(`Booking with id ${id} updated successfully`)
+    } catch(error) {
+        next(error)
+    }
 })

@@ -1,19 +1,31 @@
-
-import { data } from "../data/OrderData"
 import { Booking } from "../interfaces/booking"
 import { APISearchError}  from "../utils/APIerror"
+import { BookingModel } from "../models/bookings"
 
 export async function getBookings(): Promise<Booking[]>{
-    if (!data){
-        throw new APISearchError(404, "Bookings not found")
-    }
-    return data
+    const bookingsData = await BookingModel.find();
+    return bookingsData
 }
 
 export async function getBooking(id : string): Promise<Booking>{
-    const individualBooking = data.find((booking) => booking.id === id);
+    const individualBooking = await BookingModel.findById({_id: id})
     if (!individualBooking){
         throw new APISearchError(404, `Booking with id ${id} not found`)
     }
-    return individualBooking as Booking
+    return individualBooking as any
+}
+
+export async function AddBookings(booking : Booking){
+    const addedBooking = BookingModel.insertMany(booking);
+    return addedBooking
+}
+
+export async function DeleteBookings(id : any){
+    const deletedBooking = BookingModel.findOneAndDelete({_id: id});
+    return deletedBooking
+}
+
+export async function UpdateBookings(id : any, body : any){
+    const updatedBooking = BookingModel.findOneAndUpdate({_id: id}, body, {new: true})
+    return updatedBooking
 }

@@ -1,18 +1,16 @@
-import { data } from "../data/CustomerData"
-import { Contact } from "../interfaces/contact"
+import { Reviews } from "../interfaces/reviews"
 import { APISearchError}  from "../utils/APIerror"
+import { ReviewsModel } from "../models/reviews"
 
-export async function getComments(): Promise<Contact[]>{
-    if(!data){
-        throw new APISearchError(404, "Reviews not found")
-    }
-    return data
+export async function getComments(): Promise<Reviews[]>{
+    const customerData = ReviewsModel.find()
+    return customerData
 }
 
-export async function getComment(id : string): Promise<Contact>{
-    const individualReview = data.find((review) => review.comment_id === parseInt(id))
+export async function getComment(id : string): Promise<Reviews>{
+    const individualReview = await ReviewsModel.findOne({_id: id})
     if (!individualReview){
-        throw new APISearchError(404, `Review with id ${id} not found`)
+        throw new APISearchError(404, `Customer review with id ${id} not found`)
     }
-    return individualReview as Contact
+    return individualReview as any
 }
