@@ -68,7 +68,7 @@ function createRooms(): Room[] {
 
 function createEmployees(): Employee[] {
     const employeesList : Employee[] = [];
-    const password = "abcdefghijk";
+    const password = faker.internet.password({length: 12});
     for (let i = 0; i < 10; i++){
         const employee_fullName = faker.person.fullName();
         const employee_email = faker.internet.email({ firstName: employee_fullName, provider: "hotelmiranda.com"}).toLowerCase();
@@ -79,7 +79,7 @@ function createEmployees(): Employee[] {
             employee_startDate: faker.date.anytime(),
             employee_description: faker.helpers.arrayElement(["VP Accounting", "Assistant Professor", "Paralegal", "Marketing Assistant", "Senior Quality Engineer", "Junior Executive", "Internal Auditor", "Assistant Manager", "Physical Therapy Assistant", "Operator"]),
             employee_phone: faker.phone.number(),
-            employee_status: faker.helpers.arrayElement(["Active", "Inactive"])
+            employee_status: faker.helpers.arrayElement(["Active", "Inactive"]),
         })
     }
     return employeesList;
@@ -99,3 +99,6 @@ async function DBSeeder(){
 
 
 DBSeeder();
+
+
+
