@@ -28,7 +28,7 @@ EmployeeController.get("/employees/:id", async (req: Request, res: Response, nex
 EmployeeController.post("/employees", async (req: Request, res: Response, next: NextFunction) => {
     try {   
         const addUser = AddUsers(req.body)
-        res.json("User added successfully")
+        res.json("Employee added successfully")
     } catch(error){
         next(error)
     }

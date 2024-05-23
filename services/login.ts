@@ -21,6 +21,6 @@ export async function login(data: {email: string, password: string}){
             throw new APISearchError(400, "Invalid email or password");
         }
     } else {
-        throw new APISearchError(400, "Login failed, try again")
+        throw new APISearchError(400, "Login failed or login data is missing, try again")
     }
 }

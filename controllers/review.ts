@@ -5,8 +5,8 @@ export const ReviewController = express.Router()
 
 ReviewController.get("/customer-reviews", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const reviews = await getComments();
-        return res.json({reviews});
+        const allReviews = await getComments();
+        return res.json({allReviews});
     } catch(error){
         console.error(error)
         next(error)
