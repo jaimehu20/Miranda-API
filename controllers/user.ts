@@ -38,7 +38,7 @@ EmployeeController.delete("/employees/:id", async (req: Request, res: Response, 
     try {
         const id = req.params.id;
         const deleteUser = await DeleteUsers(id)
-        res.json(`User with id ${id} deleted succesfully`)
+        res.json(`Employee with id ${id} deleted successfully`)
     } catch(error) {
         next(error)
     }
@@ -48,7 +48,7 @@ EmployeeController.patch("/employees/:id", async (req: Request, res: Response, n
     try {
         const id = req.params.id
         const updateUser = await UpdateUsers(id, req.body)
-        res.json(`User with id ${id} updated successfully`)
+        res.json(`Employee with id ${id} updated successfully`)
     } catch(error){
         next(error)
     }

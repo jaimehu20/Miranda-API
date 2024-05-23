@@ -15,7 +15,7 @@ ReviewsModel.collection.drop();
 RoomModel.collection.drop();
 EmployeeModel.collection.drop();
 
-function createBookings() : Booking[] {
+export function createBookings() : Booking[] {
     const bookingsList : Booking[] = [];
     for (let i = 0; i < 10; i++) {
         bookingsList.push({
@@ -34,7 +34,7 @@ function createBookings() : Booking[] {
     return bookingsList;
 }
 
-function createReviews(): Reviews[] {
+export function createReviews(): Reviews[] {
     const reviewsList : Reviews[] = [];
     for (let i = 0; i < 10; i++){
         const review_customer = faker.person.fullName();
@@ -51,7 +51,7 @@ function createReviews(): Reviews[] {
     return reviewsList;
 }
 
-function createRooms(): Room[] {
+export function createRooms(): Room[] {
     const roomsList : Room[] = [];
     for (let i = 0; i < 10; i++){
         roomsList.push({
@@ -66,7 +66,7 @@ function createRooms(): Room[] {
     return roomsList;
 }
 
-function createEmployees(): Employee[] {
+export function createEmployees(): Employee[] {
     const employeesList : Employee[] = [];
     const password = faker.internet.password({length: 12});
     for (let i = 0; i < 10; i++){
