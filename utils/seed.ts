@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import bcrypt from "bcrypt"
 import { BookingModel } from "../models/bookings";
 import { ReviewsModel } from "../models/reviews";
 import { RoomModel } from "../models/rooms";
@@ -36,11 +37,13 @@ function createBookings() : Booking[] {
 function createReviews(): Reviews[] {
     const reviewsList : Reviews[] = [];
     for (let i = 0; i < 10; i++){
+        const review_customer = faker.person.fullName();
+        const review_customerMail = faker.internet.email({firstName : review_customer}).toLowerCase();
         reviewsList.push({
             review_date: faker.date.anytime(),
             review_time: faker.date.anytime(),
-            review_customer: faker.person.fullName(),
-            review_customerMail: faker.internet.email(),
+            review_customer: review_customer,
+            review_customerMail: review_customerMail,
             review_customerPhone: faker.phone.number(),
             review_comment: faker.lorem.paragraph(10),
         })
@@ -65,17 +68,21 @@ function createRooms(): Room[] {
 
 function createEmployees(): Employee[] {
     const employeesList : Employee[] = [];
+    const password = "abcdefghijk";
     for (let i = 0; i < 10; i++){
+        const employee_fullName = faker.person.fullName();
+        const employee_email = faker.internet.email({ firstName: employee_fullName, provider: "hotelmiranda.com"}).toLowerCase();
         employeesList.push({
-            employee_fullName: faker.person.fullName(),
-            employee_email: faker.internet.email(),
+            employee_fullName: employee_fullName,
+            employee_email: employee_email,
+            employee_password: bcrypt.hashSync(password, 10),
             employee_startDate: faker.date.anytime(),
             employee_description: faker.helpers.arrayElement(["VP Accounting", "Assistant Professor", "Paralegal", "Marketing Assistant", "Senior Quality Engineer", "Junior Executive", "Internal Auditor", "Assistant Manager", "Physical Therapy Assistant", "Operator"]),
             employee_phone: faker.phone.number(),
             employee_status: faker.helpers.arrayElement(["Active", "Inactive"])
         })
     }
-    return employeesList
+    return employeesList;
 }
 
 async function DBSeeder(){

@@ -4,6 +4,7 @@ import { Employee } from "../interfaces/employee"
 const EmployeeSchema = new Schema<Employee>({
     employee_fullName: {type: String, required: true},
     employee_email: {type: String, required: true},
+    employee_password: {type: String, required: true},
     employee_startDate: {type: Date, required: true},
     employee_description: {type: String, required: true},
     employee_phone: {type: String, required: true},
