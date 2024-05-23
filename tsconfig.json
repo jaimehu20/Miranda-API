@@ -15,6 +15,7 @@
     "skipLibCheck": true
   },
   "include": [
-    "lambda.ts"
-, "app.ts"  ]
+    "lambda.ts",
+    "app.ts",
+    "connection.ts"]
 }

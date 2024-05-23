@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker';
-import bcrypt from "bcrypt"
 import { BookingModel } from "../models/bookings";
 import { ReviewsModel } from "../models/reviews";
 import { RoomModel } from "../models/rooms";
@@ -8,6 +7,7 @@ import { Booking } from '../interfaces/booking';
 import { Reviews } from "../interfaces/reviews";
 import { Room } from '../interfaces/room';
 import { Employee } from '../interfaces/employee';
+const bcrypt = require("bcryptjs");
 const dbConnect = require("../connection")
 
 BookingModel.collection.drop();
