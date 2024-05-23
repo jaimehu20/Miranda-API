@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
-import { compare } from "bcrypt";
 import { APISearchError}  from "../utils/APIerror"
 import { EmployeeModel } from "../models/employee";
+const bcrypt = require("bcryptjs")
 const dbConnect = require("../connection")
 
 dotenv.config();
@@ -12,7 +12,7 @@ export async function login(data: {email: string, password: string}){
     const user = await EmployeeModel.findOne({ employee_email : email })
     if (user){
         const hash = user.employee_password;
-        const verify = await compare(password, hash);
+        const verify = await bcrypt.compare(password, hash);
         if (verify){
             const userData = {email, userName: user.employee_fullName};
             const token = jwt.sign(userData, process.env.SECRET_TOKEN as string);
