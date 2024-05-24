@@ -1,4 +1,6 @@
 import { faker } from '@faker-js/faker';
+import mongoose, { disconnect } from "mongoose";
+import dotenv from "dotenv"
 import { BookingModel } from "../models/bookings";
 import { ReviewsModel } from "../models/reviews";
 import { RoomModel } from "../models/rooms";
@@ -8,12 +10,9 @@ import { Reviews } from "../interfaces/reviews";
 import { Room } from '../interfaces/room';
 import { Employee } from '../interfaces/employee';
 const bcrypt = require("bcryptjs");
-const dbConnect = require("../connection")
 
-BookingModel.collection.drop();
-ReviewsModel.collection.drop();
-RoomModel.collection.drop();
-EmployeeModel.collection.drop();
+dotenv.config()
+
 
 export function createBookings() : Booking[] {
     const bookingsList : Booking[] = [];
@@ -86,6 +85,16 @@ export function createEmployees(): Employee[] {
 }
 
 async function DBSeeder(){
+
+    const HotelMirandaDB = `mongodb+srv://jaimehudev:${process.env.MONGO_PASS}@miranda-api.vhdiiei.mongodb.net/?retryWrites=true&w=majority&appName=MIRANDA-API`;
+    mongoose.connect(HotelMirandaDB)
+
+
+    BookingModel.collection.drop();
+    ReviewsModel.collection.drop();
+    RoomModel.collection.drop();
+    EmployeeModel.collection.drop();
+
     const bookings = createBookings();
     const reviews = createReviews();
     const rooms = createRooms();
@@ -95,6 +104,8 @@ async function DBSeeder(){
     await ReviewsModel.insertMany(reviews);
     await RoomModel.insertMany(rooms);
     await EmployeeModel.insertMany(employees);
+
+    disconnect()
 }
 
 
