@@ -3,8 +3,7 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
-const HotelMirandaDB = `mongodb+srv://jaimehudev:${process.env.MONGO_PASS}@miranda-api.vhdiiei.mongodb.net/?retryWrites=true&w=majority&appName=MIRANDA-API`
-console.log(process.env.MONGO_PASS)
+const HotelMirandaDB = "mongodb+srv://jaimehudev:uWFmP43GUSqz3o6x@miranda-api.vhdiiei.mongodb.net/?retryWrites=true&w=majority&appName=MIRANDA-API"
 
 mongoose.connect(HotelMirandaDB)
 .then( () => {

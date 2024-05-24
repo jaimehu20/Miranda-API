@@ -3,7 +3,6 @@ import dotenv from "dotenv"
 import { app } from "../app";
 import { server } from "../server";
 import { disconnect } from "mongoose";
-import { createBookings, createRooms, createReviews, createEmployees } from "../utils/Seed"
 const dbConnect = require("../connection")
 
 dotenv.config()
@@ -35,17 +34,23 @@ describe("GET /bookings", () => {
     test("Returns data from id selected, authentication OK", async () =>{
       const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
       const token = login.body.token;
-      const bookingsResponse = await supertest(app).get("/bookings/664f7b43918b41da72c199ba").set("Authorization", `Bearer ${token}`);
-      expect(bookingsResponse.body.individualBooking._id).toBe("664f7b43918b41da72c199ba");
+      const bookingsResponse = await supertest(app).get("/bookings/66504c4c0f45e3b477af478a").set("Authorization", `Bearer ${token}`);
+      expect(bookingsResponse.body.individualBooking._id).toBe("66504c4c0f45e3b477af478a");
       expect(bookingsResponse.body.individualBooking).toBeInstanceOf(Object);
       expect(bookingsResponse.status).toBe(200);
-    })
-    /*test("Returns booking with id 20 not found", async () => {
+    }),
+    test("Returns Invalid booking ID when ID is not found", async () => {
+      const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
+      const token = login.body.token;
+      const bookingsResponse = await supertest(app).get("/bookings/66504c4c0f45e3b479af4792").set("Authorization", `Bearer ${token}`);
+      expect(bookingsResponse.body).toEqual({ message: "Invalid booking ID"});
+    }),
+    test("Returns status 400 when ID format is not correct", async () => {
       const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
       const token = login.body.token;
       const bookingsResponse = await supertest(app).get("/bookings/20").set("Authorization", `Bearer ${token}`);
-      expect(bookingsResponse.status).toBe(404)
-    })*/
+      expect(bookingsResponse.status).toBe(400)
+    })
 }
 )
 
@@ -66,25 +71,25 @@ describe("POST /bookings", () => {
         "status": "Check In"
     }
     const request = await supertest(app).post("/bookings").send(booking).set("Authorization", `Bearer ${token}`);
-    expect(request.body).toBe("Booking added successfully");
+    expect(request.body).toEqual({message: "Booking added successfully"});
   })
 })
 
 describe("DELETE /bookings", () => {
-  test("Returns Booking with id 664f7b43918b41da72c199bb deleted successfully when deleting a booking", async () => {
+  test("Returns Booking with id 66504c4c0f45e3b477af478b deleted successfully when deleting a booking", async () => {
     const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
     const token = login.body.token;
-    const request = await supertest(app).delete("/bookings/664f7b43918b41da72c199bb").set("Authorization", `Bearer ${token}`);
-    expect(request.body).toBe("Booking with id 664f7b43918b41da72c199bb deleted successfully");
+    const request = await supertest(app).delete("/bookings/66504c4c0f45e3b477af478b").set("Authorization", `Bearer ${token}`);
+    expect(request.body).toEqual({message: "Booking with id 66504c4c0f45e3b477af478b deleted successfully"});
   })
 })
 
 describe("PATCH /bookings", () => {
-  test("Returns Booking with id 664f7b43918b41da72c199bc updated successfully when updating a booking", async () => {
+  test("Returns Booking with id 66504c4c0f45e3b477af478c updated successfully when updating a booking", async () => {
     const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
     const token = login.body.token;
-    const request = await supertest(app).patch("/bookings/664f7b43918b41da72c199bc").send({"first_name": "Juan Alberto"}).set("Authorization", `Bearer ${token}`);
-    expect(request.body).toBe("Booking with id 664f7b43918b41da72c199bc updated successfully");
+    const request = await supertest(app).patch("/bookings/66504c4c0f45e3b477af478c").send({"first_name": "Juan Alberto"}).set("Authorization", `Bearer ${token}`);
+    expect(request.body).toEqual({message: "Booking with id 66504c4c0f45e3b477af478c updated successfully"});
   })
 })
 
@@ -103,17 +108,23 @@ describe("GET /rooms", () => {
   test("Returns data from id selected, authentication OK", async () =>{
     const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
     const token = login.body.token;
-    const roomResponse = await supertest(app).get("/rooms/664f7b43918b41da72c199d8").set("Authorization", `Bearer ${token}`);
-    expect(roomResponse.body.individualRoom._id).toBe("664f7b43918b41da72c199d8");
+    const roomResponse = await supertest(app).get("/rooms/66504c4d0f45e3b477af47a5").set("Authorization", `Bearer ${token}`);
+    expect(roomResponse.body.individualRoom._id).toBe("66504c4d0f45e3b477af47a5");
     expect(roomResponse.body.individualRoom).toBeInstanceOf(Object);
     expect(roomResponse.status).toBe(200)
-  })
-  /*test("Returns room with id 20 not found", async () => {
+  }),
+  test("Returns Invalid room ID when ID is not found", async () => {
     const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
     const token = login.body.token;
-    const roomResponse = await supertest(app).get("/rooms/20").set("Authorization", `Bearer ${token}`);
-    expect(roomResponse.body).toEqual({ message: "Room with id 20 not found"});
-  })*/
+    const bookingsResponse = await supertest(app).get("/rooms/66504c4d0f45e3b477af11a5").set("Authorization", `Bearer ${token}`);
+    expect(bookingsResponse.body).toEqual({ message: "Invalid room ID"});
+  }),
+  test("Returns status 400 when ID format is not correct", async () => {
+    const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
+    const token = login.body.token;
+    const bookingsResponse = await supertest(app).get("/rooms/20").set("Authorization", `Bearer ${token}`);
+    expect(bookingsResponse.status).toBe(400)
+  })
 })
 
 describe("POST /rooms", () => {
@@ -129,26 +140,25 @@ describe("POST /rooms", () => {
         "room_status": "Available"
     }
     const request = await supertest(app).post("/rooms").send(room).set("Authorization", `Bearer ${token}`);
-    expect(request.body).toBe("Room added successfully");
+    expect(request.body).toEqual({message: "Room added successfully"});
   })
 })
 
-
 describe("DELETE /rooms", () => {
-  test("Returns Room with id 664f7b43918b41da72c199d9 deleted successfully when deleting a room", async () => {
+  test("Returns Room with id 66504c4d0f45e3b477af47a6 deleted successfully when deleting a room", async () => {
     const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
     const token = login.body.token;
-    const request = await supertest(app).delete("/rooms/664f7b43918b41da72c199d9").set("Authorization", `Bearer ${token}`);
-    expect(request.body).toBe("Room with id 664f7b43918b41da72c199d9 deleted successfully");
+    const request = await supertest(app).delete("/rooms/66504c4d0f45e3b477af47a6").set("Authorization", `Bearer ${token}`);
+    expect(request.body).toEqual({message: "Room with id 66504c4d0f45e3b477af47a6 deleted successfully"});
   })
 })
 
 describe("PATCH /rooms", () => {
-  test("Returns Room with id 664f7b43918b41da72c199da updated successfully", async () => {
+  test("Returns Room with id 66504c4d0f45e3b477af47a7 updated successfully", async () => {
     const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
     const token = login.body.token;
-    const request = await supertest(app).patch("/rooms/664f7b43918b41da72c199da").send({"room_code": "A-95398"}).set("Authorization", `Bearer ${token}`);
-    expect(request.body).toBe("Room with id 664f7b43918b41da72c199da updated successfully");
+    const request = await supertest(app).patch("/rooms/66504c4d0f45e3b477af47a7").send({"room_code": "A-95398"}).set("Authorization", `Bearer ${token}`);
+    expect(request.body).toEqual({message: "Room with id 66504c4d0f45e3b477af47a7 updated successfully"});
   })
 })
 
@@ -167,17 +177,23 @@ describe("GET /customer-reviews", () => {
   test("Returns data from id selected, authentication OK", async () =>{
     const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
     const token = login.body.token;
-    const reviewsResponse = await supertest(app).get("/customer-reviews/664f7b43918b41da72c199cd").set("Authorization", `Bearer ${token}`);
-    expect(reviewsResponse.body.individualReview._id).toBe("664f7b43918b41da72c199cd");
+    const reviewsResponse = await supertest(app).get("/customer-reviews/66504c4c0f45e3b477af479a").set("Authorization", `Bearer ${token}`);
+    expect(reviewsResponse.body.individualReview._id).toBe("66504c4c0f45e3b477af479a");
     expect(reviewsResponse.body.individualReview).toBeInstanceOf(Object);
     expect(reviewsResponse.status).toBe(200);
-  })
-  /*test("Returns room with id 20 not found", async () => {
+  }),
+  test("Returns Invalid review ID when ID is not found", async () => {
     const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
     const token = login.body.token;
-    const reviewsResponse = await supertest(app).get("/customer-reviews/20").set("Authorization", `Bearer ${token}`);
-    expect(reviewsResponse.body).toEqual({ message: "Review with id 20 not found"});
-  })*/
+    const bookingsResponse = await supertest(app).get("/customer-reviews/66504c4d0f45e3b477af11a5").set("Authorization", `Bearer ${token}`);
+    expect(bookingsResponse.body).toEqual({ message: "Invalid review ID"});
+  }),
+  test("Returns status 400 when ID format is not correct", async () => {
+    const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
+    const token = login.body.token;
+    const bookingsResponse = await supertest(app).get("/customer-reviews/20").set("Authorization", `Bearer ${token}`);
+    expect(bookingsResponse.status).toBe(400)
+  })
 })
 
 describe("GET /employees", () => {
@@ -195,17 +211,23 @@ describe("GET /employees", () => {
   test("Returns data from id selected, authentication OK", async () =>{
     const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
     const token = login.body.token;
-    const usersResponse = await supertest(app).get("/employees/664f7b43918b41da72c199e3").set("Authorization", `Bearer ${token}`);
-    expect(usersResponse.body.individualUser._id).toBe("664f7b43918b41da72c199e3");
+    const usersResponse = await supertest(app).get("/employees/66504c4d0f45e3b477af47b0").set("Authorization", `Bearer ${token}`);
+    expect(usersResponse.body.individualUser._id).toBe("66504c4d0f45e3b477af47b0");
     expect(usersResponse.body.individualUser).toBeInstanceOf(Object);
     expect(usersResponse.status).toBe(200)
-  })
-  /*test("Returns room with id 20 not found", async () => {
+  }),
+  test("Returns Invalid employee ID when ID is not found", async () => {
     const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
     const token = login.body.token;
-    const usersResponse = await supertest(app).get("/employees/20").set("Authorization", `Bearer ${token}`);
-    expect(usersResponse.body).toEqual({ message: "User with id 20 not found"});
-  })*/
+    const bookingsResponse = await supertest(app).get("/employees/66504c4d0f45e3b477af11a5").set("Authorization", `Bearer ${token}`);
+    expect(bookingsResponse.body).toEqual({ message: "Invalid employee ID"});
+  }),
+  test("Returns status 400 when ID format is not correct", async () => {
+    const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
+    const token = login.body.token;
+    const bookingsResponse = await supertest(app).get("/employees/20").set("Authorization", `Bearer ${token}`);
+    expect(bookingsResponse.status).toBe(400)
+  })
 })
 
 describe("POST /employees", () => {
@@ -222,25 +244,25 @@ describe("POST /employees", () => {
       "employee_status": "Active"
     }
     const request = await supertest(app).post("/employees").send(employee).set("Authorization", `Bearer ${token}`);
-    expect(request.body).toBe("Employee added successfully");
+    expect(request.body).toEqual({message: "Employee added successfully"});
   })
 })
 
 describe("DELETE /employees", () => {
-  test("Returns Employee with id 664f7b43918b41da72c199e4 deleted successfully", async () => {
+  test("Returns Employee with id 66504c4d0f45e3b477af47b1 deleted successfully", async () => {
     const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
     const token = login.body.token;
-    const request = await supertest(app).delete("/employees/664f7b43918b41da72c199e4").set("Authorization", `Bearer ${token}`);
-    expect(request.body).toBe("Employee with id 664f7b43918b41da72c199e4 deleted successfully");
+    const request = await supertest(app).delete("/employees/66504c4d0f45e3b477af47b1").set("Authorization", `Bearer ${token}`);
+    expect(request.body).toEqual({message: "Employee with id 66504c4d0f45e3b477af47b1 deleted successfully"});
   })
 })
 
 describe("PATCH /employees", () => {
-  test("Returns Employee with id 664f7b43918b41da72c199e5 updated successfully", async () => {
+  test("Returns Employee with id 66504c4d0f45e3b477af47b2 updated successfully", async () => {
     const login = await supertest(app).post("/login").send({email: "jaimehu20@hotelmiranda.com", password: "jaimehu20@co"});
     const token = login.body.token;
-    const request = await supertest(app).patch("/employees/664f7b43918b41da72c199e5").send({"employee_fullName": "Miguel Angel Benítez"}).set("Authorization", `Bearer ${token}`);
-    expect(request.body).toBe("Employee with id 664f7b43918b41da72c199e5 updated successfully");
+    const request = await supertest(app).patch("/employees/66504c4d0f45e3b477af47b2").send({"employee_fullName": "Miguel Angel Benítez"}).set("Authorization", `Bearer ${token}`);
+    expect(request.body).toEqual({message: "Employee with id 66504c4d0f45e3b477af47b2 updated successfully"});
   })
 })
 

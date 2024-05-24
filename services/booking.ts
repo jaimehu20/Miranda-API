@@ -8,11 +8,15 @@ export async function getBookings(): Promise<Booking[]>{
 }
 
 export async function getBooking(id : string): Promise<Booking>{
-    const individualBooking = await BookingModel.findById({_id: id})
-    if (!individualBooking){
-        throw new APISearchError(404, `Booking with id ${id} not found`)
+    try {
+        const individualBooking = await BookingModel.findById({_id: id})
+            if (!individualBooking) {
+                throw new APISearchError(404, `Booking with id ${id} not found`)
+            }
+            return individualBooking
+    } catch(error) {
+        throw new APISearchError(400, "Invalid booking ID")
     }
-    return individualBooking as any
 }
 
 export async function AddBookings(booking : Booking){

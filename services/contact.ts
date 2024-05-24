@@ -8,9 +8,13 @@ export async function getComments(): Promise<Reviews[]>{
 }
 
 export async function getComment(id : string): Promise<Reviews>{
-    const individualReview = await ReviewsModel.findOne({_id: id})
-    if (!individualReview){
-        throw new APISearchError(404, `Customer review with id ${id} not found`)
+    try {
+        const individualReview = await ReviewsModel.findById({_id: id})
+            if (!individualReview){
+            throw new APISearchError(404, `Customer review with id ${id} not found`)
+        }
+        return individualReview;
+    } catch(error) {
+        throw new APISearchError(400, "Invalid review ID")
     }
-    return individualReview as any
 }

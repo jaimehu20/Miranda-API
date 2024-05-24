@@ -8,7 +8,6 @@ ReviewController.get("/customer-reviews", async (req: Request, res: Response, ne
         const allReviews = await getComments();
         return res.json({allReviews});
     } catch(error){
-        console.error(error)
         next(error)
     }
 })
@@ -19,7 +18,6 @@ ReviewController.get("/customer-reviews/:id", async (req: Request, res: Response
         const individualReview = await getComment(id)
         return res.json({individualReview})
     } catch(error) {
-        console.error(error)
         next(error)
     }
 })

@@ -8,7 +8,6 @@ EmployeeController.get("/employees", async (req: Request, res: Response, next: N
         const allUsers = await getUsers()
         return res.json({allUsers})
     } catch(error){
-        console.error(error)
         next(error)
     }
 })
@@ -20,7 +19,6 @@ EmployeeController.get("/employees/:id", async (req: Request, res: Response, nex
         return res.json({individualUser})
 
     } catch(error){
-        console.error(error)
         next(error)
     }
 })
@@ -28,7 +26,7 @@ EmployeeController.get("/employees/:id", async (req: Request, res: Response, nex
 EmployeeController.post("/employees", async (req: Request, res: Response, next: NextFunction) => {
     try {   
         const addUser = AddUsers(req.body)
-        res.json("Employee added successfully")
+        res.json({message: "Employee added successfully"})
     } catch(error){
         next(error)
     }
@@ -38,7 +36,7 @@ EmployeeController.delete("/employees/:id", async (req: Request, res: Response, 
     try {
         const id = req.params.id;
         const deleteUser = await DeleteUsers(id)
-        res.json(`Employee with id ${id} deleted successfully`)
+        res.json({message: `Employee with id ${id} deleted successfully`})
     } catch(error) {
         next(error)
     }
@@ -48,7 +46,7 @@ EmployeeController.patch("/employees/:id", async (req: Request, res: Response, n
     try {
         const id = req.params.id
         const updateUser = await UpdateUsers(id, req.body)
-        res.json(`Employee with id ${id} updated successfully`)
+        res.json({message: `Employee with id ${id} updated successfully`})
     } catch(error){
         next(error)
     }

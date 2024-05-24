@@ -8,11 +8,15 @@ export async function getUsers(): Promise<Employee[]>{
 }
 
 export async function getUser(id : string): Promise<Employee>{
-    const individualUser = await EmployeeModel.findById({_id : id})
-    if (!individualUser){
-        throw new APISearchError(404, `User with id ${id} not found`)
+    try {
+        const individualUser = await EmployeeModel.findById({_id : id})
+           if (!individualUser){
+            throw new APISearchError(404, `User with id ${id} not found`)
+        }
+        return individualUser;
+    } catch(error) {
+        throw new APISearchError(400, "Invalid employee ID")
     }
-    return individualUser as any
 }
 
 export async function AddUsers(user: Employee){

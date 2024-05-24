@@ -8,11 +8,15 @@ export async function getRooms(): Promise<Room[]>{
 }
 
 export async function getRoom(id : string): Promise<Room>{
-    const individualRoom = await RoomModel.findById({_id: id})
-    if (!individualRoom){
-        throw new APISearchError(404, `Room with id ${id} not found`)
+    try {
+        const individualRoom = await RoomModel.findById({_id: id})
+        if (individualRoom === null){
+            throw new APISearchError(404, `Room with id ${id} not found`)
+        }
+        return individualRoom;
+    } catch(error) {
+        throw new APISearchError(400, "Invalid room ID")
     }
-    return individualRoom as any
 }
 
 export async function AddRooms(room : Room){

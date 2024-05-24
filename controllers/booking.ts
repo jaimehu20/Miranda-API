@@ -27,7 +27,7 @@ BookingsController.get("/bookings/:id", async (req: Request, res: Response, next
 BookingsController.post("/bookings", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const addBooking = await AddBookings(req.body)
-        res.json("Booking added successfully")
+        res.json({message: "Booking added successfully"})
     } catch(error){
         next(error)
     }
@@ -37,7 +37,7 @@ BookingsController.delete("/bookings/:id", async (req: Request, res: Response, n
     try {
         const id = req.params.id;
         const deleteBooking = await DeleteBookings(id)
-        res.json(`Booking with id ${id} deleted successfully`);
+        res.json({message: `Booking with id ${id} deleted successfully`});
     } catch(error){
         next(error)
     }
@@ -47,7 +47,7 @@ BookingsController.patch("/bookings/:id", async (req : Request, res: Response, n
     try {
         const id = req.params.id;
         const updateBooking = await UpdateBookings(id, req.body)
-        res.json(`Booking with id ${id} updated successfully`)
+        res.json({message: `Booking with id ${id} updated successfully`})
     } catch(error) {
         next(error)
     }
