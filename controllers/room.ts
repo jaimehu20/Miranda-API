@@ -24,8 +24,8 @@ RoomController.get("/rooms/:id", async (req: Request, res: Response, next: NextF
 
 RoomController.post("/rooms", async (req: Request, res: Response, next: NextFunction) => {
     try{
-        const addRoom = AddRooms(req.body)
-        res.json({message: "Room added successfully"})
+        const addRoom = await AddRooms(req.body)
+        res.json({message: "Room added successfully", room: addRoom})
     } catch(error){
         next(error)
     }
@@ -35,7 +35,7 @@ RoomController.delete("/rooms/:id", async (req: Request, res: Response, next: Ne
     try {
         const id = req.params.id;
         const deleteRoom = await DeleteRooms(id)
-        res.json({message: `Room with id ${id} deleted successfully`})
+        res.json({message: `Room with id ${id} deleted successfully`, room: deleteRoom})
     } catch(error){
         next(error)
     }
@@ -45,7 +45,7 @@ RoomController.patch("/rooms/:id", async (req: Request, res: Response, next: Nex
     try {
         const id = req.params.id;
         const updateRoom = await UpdateRooms(id, req.body)
-        res.json({message: `Room with id ${id} updated successfully`})
+        res.json({message: `Room with id ${id} updated successfully`, room: updateRoom})
     } catch(error){
         next(error)
     }
