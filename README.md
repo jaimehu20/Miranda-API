@@ -1,1 +1,1 @@
-# Migrating Miranda-API to MongoDB
+# Migrating Miranda-API to MYSQL
