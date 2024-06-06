@@ -1,6 +1,6 @@
 import { Room } from "../interfaces/room"
 import { RoomModel } from "../models/rooms"
-import { sqlInjector } from "../utils/sqlInjector"
+import { sqlEditor, sqlInjector } from "../utils/sqlInjector"
 import { connection } from "../mysqlConnect"
 
 export async function getRooms(): Promise<Room[]>{
@@ -47,11 +47,12 @@ export async function AddRooms(room : Room){
 }
 
 export async function DeleteRooms(id : any){
-    const deletedRoom = RoomModel.findOneAndDelete({_id: id})
-    return deletedRoom
+    connection.connect();
+    connection.query(`DELETE FROM rooms WHERE room_id = ${id}`)
+    return 
 }
 
 export async function UpdateRooms(id : any, body : any){
-    const updatedRoom = RoomModel.findOneAndUpdate({_id: id}, body, {new: true})
+    const updatedRoom = sqlEditor("rooms", body, id);
     return updatedRoom
 }

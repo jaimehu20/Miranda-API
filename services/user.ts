@@ -1,6 +1,6 @@
 import { Employee } from "../interfaces/employee";
 import { EmployeeModel } from "../models/employee";
-import { sqlInjector } from "../utils/sqlInjector";
+import { sqlEditor, sqlInjector } from "../utils/sqlInjector";
 import { connection } from "../mysqlConnect";
 
 export async function getUsers(): Promise<Employee[]>{
@@ -47,11 +47,12 @@ export async function AddUsers(user: Employee){
 }
 
 export async function DeleteUsers(id : any){
-    const deletedUser = EmployeeModel.findOneAndDelete({_id : id})
-    return deletedUser
+    connection.connect();
+    connection.query(`DELETE FROM employees WHERE employee_id = ${id}`)
+    return 
 }
 
 export async function UpdateUsers(id : any, body : any){
-    const updatedRoom = EmployeeModel.findOneAndUpdate({_id: id}, body, {new: true})
+    const updatedRoom = sqlEditor("employees", body, id);
     return updatedRoom
 }

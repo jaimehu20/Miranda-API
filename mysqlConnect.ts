@@ -4,5 +4,6 @@ export const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'jaimehu20@co',
-  database: 'hotelmirandadashboard'
+  database: 'hotelmirandadashboard',
+  namedPlaceholders: true
 });

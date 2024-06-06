@@ -1,6 +1,6 @@
 import { Booking } from "../interfaces/booking"
 import { BookingModel } from "../models/bookings"
-import { sqlInjector } from "../utils/sqlInjector";
+import { sqlInjector, sqlEditor } from "../utils/sqlInjector";
 import { connection } from "../mysqlConnect";
 
 export async function getBookings(): Promise<Booking[]>{
@@ -47,11 +47,12 @@ export async function AddBookings(booking : Booking){
 }
 
 export async function DeleteBookings(id : any){
-    const deletedBooking = BookingModel.findOneAndDelete({_id: id});
-    return deletedBooking
+    connection.connect();
+    connection.query(`DELETE FROM bookings WHERE booking_id = ${id}`)
+    return 
 }
 
 export async function UpdateBookings(id : any, body : any){
-    const updatedBooking = BookingModel.findOneAndUpdate({_id: id}, body, {new: true})
+    const updatedBooking = sqlEditor("bookings", body, id);
     return updatedBooking
 }
