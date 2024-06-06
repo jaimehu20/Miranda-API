@@ -1,22 +1,43 @@
-import { Employee } from "../interfaces/employee"
-import { APISearchError}  from "../utils/APIerror"
-import { EmployeeModel } from "../models/employee"
-import { sqlInjector } from "../utils/sqlInjector"
+import { Employee } from "../interfaces/employee";
+import { EmployeeModel } from "../models/employee";
+import { sqlInjector } from "../utils/sqlInjector";
+import { connection } from "../mysqlConnect";
 
 export async function getUsers(): Promise<Employee[]>{
-    const usersData = EmployeeModel.find()
-    return usersData
+    try {
+        connection.connect();
+        const queryResult = await new Promise<Employee[]>((resolve, reject) => {
+            connection.query('SELECT * FROM employees', (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results as Employee[])
+                }
+            });
+        });
+        return queryResult
+    } catch(error){
+        console.error(error)
+        throw error;
+    }
 }
 
-export async function getUser(id : string): Promise<Employee>{
+export async function getUser(id : string): Promise<Employee[]>{
     try {
-        const individualUser = await EmployeeModel.findById({_id : id})
-           if (!individualUser){
-            throw new APISearchError(404, `User with id ${id} not found`)
-        }
-        return individualUser;
-    } catch(error) {
-        throw new APISearchError(400, "Invalid employee ID")
+        connection.connect();
+        const queryResult = await new Promise<Employee[]>((resolve, reject) => {
+            connection.query(`SELECT * FROM employees WHERE employee_id = ${id}`, (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results as Employee[])
+                }
+            });
+        });
+        return queryResult
+    } catch(error){
+        console.error(error)
+        throw error;
     }
 }
 

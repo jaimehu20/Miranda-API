@@ -1,22 +1,43 @@
 import { Room } from "../interfaces/room"
 import { RoomModel } from "../models/rooms"
-import { APISearchError}  from "../utils/APIerror"
 import { sqlInjector } from "../utils/sqlInjector"
+import { connection } from "../mysqlConnect"
 
 export async function getRooms(): Promise<Room[]>{
-    const roomsData = RoomModel.find()
-    return roomsData
+    try {
+        connection.connect();
+        const queryResult = await new Promise<Room[]>((resolve, reject) => {
+            connection.query('SELECT * FROM rooms', (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results as Room[])
+                }
+            });
+        });
+        return queryResult
+    } catch(error){
+        console.error(error)
+        throw error;
+    }
 }
 
-export async function getRoom(id : string): Promise<Room>{
+export async function getRoom(id : string): Promise<Room[]>{
     try {
-        const individualRoom = await RoomModel.findById({_id: id})
-        if (individualRoom === null){
-            throw new APISearchError(404, `Room with id ${id} not found`)
-        }
-        return individualRoom;
-    } catch(error) {
-        throw new APISearchError(400, "Invalid room ID")
+        connection.connect();
+        const queryResult = await new Promise<Room[]>((resolve, reject) => {
+            connection.query(`SELECT * FROM rooms WHERE room_id = ${id}`, (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results as Room[])
+                }
+            });
+        });
+        return queryResult
+    } catch(error){
+        console.error(error)
+        throw error;
     }
 }
 

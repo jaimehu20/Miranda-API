@@ -1,23 +1,43 @@
 import { Booking } from "../interfaces/booking"
-import { APISearchError}  from "../utils/APIerror"
 import { BookingModel } from "../models/bookings"
 import { sqlInjector } from "../utils/sqlInjector";
-import { connection } from "../mysqlConnect"
+import { connection } from "../mysqlConnect";
 
-export async function getBookings(): Promise<any>{
-    const bookingsData = connection.execute('SELECT * FROM bookings')
-    return bookingsData
+export async function getBookings(): Promise<Booking[]>{
+    try {
+        connection.connect();
+        const queryResult = await new Promise<Booking[]>((resolve, reject) => {
+            connection.query('SELECT * FROM bookings', (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results as Booking[])
+                }
+            });
+        });
+        return queryResult
+    } catch(error){
+        console.error(error)
+        throw error;
+    }
 }
 
-export async function getBooking(id : string): Promise<Booking>{
+export async function getBooking(id : string): Promise<Booking[]>{
     try {
-        const individualBooking = await BookingModel.findById({_id: id})
-            if (!individualBooking) {
-                throw new APISearchError(404, `Booking with id ${id} not found`)
-            }
-            return individualBooking
-    } catch(error) {
-        throw new APISearchError(400, "Invalid booking ID")
+        connection.connect();
+        const queryResult = await new Promise<Booking[]>((resolve, reject) => {
+            connection.query(`SELECT * FROM bookings WHERE booking_id = ${id}`, (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results as Booking[])
+                }
+            });
+        });
+        return queryResult
+    } catch(error){
+        console.error(error)
+        throw error;
     }
 }
 

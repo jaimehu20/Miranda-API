@@ -1,10 +1,25 @@
 import { Reviews } from "../interfaces/reviews"
 import { APISearchError}  from "../utils/APIerror"
 import { ReviewsModel } from "../models/reviews"
+import { connection } from "../mysqlConnect"
 
 export async function getComments(): Promise<Reviews[]>{
-    const customerData = ReviewsModel.find()
-    return customerData
+    try {
+        connection.connect();
+        const queryResult = await new Promise<Reviews[]>((resolve, reject) => {
+            connection.query('SELECT * FROM reviews', (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results as Reviews[])
+                }
+            });
+        });
+        return queryResult
+    } catch(error){
+        console.error(error)
+        throw error;
+    }
 }
 
 export async function getComment(id : string): Promise<Reviews>{
