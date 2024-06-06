@@ -1,6 +1,7 @@
 import { Employee } from "../interfaces/employee"
 import { APISearchError}  from "../utils/APIerror"
 import { EmployeeModel } from "../models/employee"
+import { sqlInjector } from "../utils/sqlInjector"
 
 export async function getUsers(): Promise<Employee[]>{
     const usersData = EmployeeModel.find()
@@ -20,7 +21,7 @@ export async function getUser(id : string): Promise<Employee>{
 }
 
 export async function AddUsers(user: Employee){
-    const addedUser = EmployeeModel.insertMany(user)
+    const addedUser = sqlInjector("employees", user)
     return addedUser
 }
 

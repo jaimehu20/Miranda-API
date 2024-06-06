@@ -1,9 +1,11 @@
 import { Booking } from "../interfaces/booking"
 import { APISearchError}  from "../utils/APIerror"
 import { BookingModel } from "../models/bookings"
+import { sqlInjector } from "../utils/sqlInjector";
+import { connection } from "../mysqlConnect"
 
-export async function getBookings(): Promise<Booking[]>{
-    const bookingsData = await BookingModel.find();
+export async function getBookings(): Promise<any>{
+    const bookingsData = connection.execute('SELECT * FROM bookings')
     return bookingsData
 }
 
@@ -20,7 +22,7 @@ export async function getBooking(id : string): Promise<Booking>{
 }
 
 export async function AddBookings(booking : Booking){
-    const addedBooking = BookingModel.insertMany(booking);
+    const addedBooking = sqlInjector("bookings", booking)
     return addedBooking
 }
 

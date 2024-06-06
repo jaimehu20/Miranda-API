@@ -1,18 +1,29 @@
 import { faker } from '@faker-js/faker';
-import mongoose, { disconnect } from "mongoose";
-import dotenv from "dotenv"
-import { BookingModel } from "../models/bookings";
-import { ReviewsModel } from "../models/reviews";
-import { RoomModel } from "../models/rooms";
-import { EmployeeModel } from "../models/employee";
 import { Booking } from '../interfaces/booking';
 import { Reviews } from "../interfaces/reviews";
 import { Room } from '../interfaces/room';
 import { Employee } from '../interfaces/employee';
 const bcrypt = require("bcryptjs");
+import { connection } from "../mysqlConnect";
+import { sqlInjector } from "../utils/sqlInjector"
 
-dotenv.config()
+connection.execute('DROP TABLE IF EXISTS bookings, rooms, employees, reviews')
 
+connection.execute(
+    'CREATE TABLE bookings (booking_id int primary key auto_increment, first_name varchar(10), last_name varchar(20), order_date varchar(20), check_in varchar(20), check_inTime varchar(20), check_out varchar(20), check_OutTime varchar(20), booking_time varchar(20), room_type varchar(20), status varchar(20))'
+)
+
+connection.execute(
+    'CREATE TABLE rooms (room_id int primary key auto_increment, room_code varchar(20), room_floor varchar(20), room_type varchar(20), room_amenities varchar(100), room_rate varchar(10), room_status varchar(20))'
+)
+
+connection.execute(
+    'CREATE TABLE employees (employee_id int primary key auto_increment, employee_fullName varchar(50), employee_email varchar(50), employee_password varchar(255), employee_startDate varchar(20), employee_description varchar(50), employee_phone varchar(50), employee_status varchar(10))'
+)
+
+connection.execute(
+    'CREATE TABLE reviews (review_id int primary key auto_increment, review_date Date, review_time varchar(20), review_customer varchar(30), review_customerMail varchar(50), review_customerPhone varchar(50), review_comment varchar(1000))'
+)
 
 export function createBookings() : Booking[] {
     const bookingsList : Booking[] = [];
@@ -30,7 +41,10 @@ export function createBookings() : Booking[] {
             status: faker.helpers.arrayElement(["Check In", "Check Out", "In Progress"])
         })
     }
-    return bookingsList;
+    for(let i = 0; i < bookingsList.length; i++){
+        sqlInjector("bookings", bookingsList[i]);
+    }
+    return bookingsList
 }
 
 export function createReviews(): Reviews[] {
@@ -47,6 +61,9 @@ export function createReviews(): Reviews[] {
             review_comment: faker.lorem.paragraph(10),
         })
     }
+    for(let i = 0; i < reviewsList.length; i++){
+        sqlInjector("reviews", reviewsList[i]);
+    }
     return reviewsList;
 }
 
@@ -61,6 +78,9 @@ export function createRooms(): Room[] {
             room_rate: faker.helpers.arrayElement(["$145", "$190", "$250", "$70"]),
             room_status: faker.helpers.arrayElement(["Available", "Booked"])
         })
+    }
+    for(let i = 0; i < roomsList.length; i++){
+        sqlInjector("rooms", roomsList[i]);
     }
     return roomsList;
 }
@@ -81,35 +101,20 @@ export function createEmployees(): Employee[] {
             employee_status: faker.helpers.arrayElement(["Active", "Inactive"]),
         })
     }
+    for(let i = 0; i < employeesList.length; i++){
+        sqlInjector("employees", employeesList[i]);
+    }
     return employeesList;
 }
 
 async function DBSeeder(){
 
-    const HotelMirandaDB = `mongodb+srv://jaimehudev:${process.env.MONGO_PASS}@miranda-api.vhdiiei.mongodb.net/?retryWrites=true&w=majority&appName=MIRANDA-API`;
-    mongoose.connect(HotelMirandaDB)
+    createBookings();
+    createReviews();
+    createRooms();
+    createEmployees();
 
-
-    BookingModel.collection.drop();
-    ReviewsModel.collection.drop();
-    RoomModel.collection.drop();
-    EmployeeModel.collection.drop();
-
-    const bookings = createBookings();
-    const reviews = createReviews();
-    const rooms = createRooms();
-    const employees = createEmployees();
-
-    await BookingModel.insertMany(bookings);
-    await ReviewsModel.insertMany(reviews);
-    await RoomModel.insertMany(rooms);
-    await EmployeeModel.insertMany(employees);
-
-    disconnect()
+    connection.end()
 }
 
-
 DBSeeder();
-
-
-

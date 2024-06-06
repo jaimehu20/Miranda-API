@@ -1,6 +1,7 @@
 import { Room } from "../interfaces/room"
 import { RoomModel } from "../models/rooms"
 import { APISearchError}  from "../utils/APIerror"
+import { sqlInjector } from "../utils/sqlInjector"
 
 export async function getRooms(): Promise<Room[]>{
     const roomsData = RoomModel.find()
@@ -20,7 +21,7 @@ export async function getRoom(id : string): Promise<Room>{
 }
 
 export async function AddRooms(room : Room){
-    const addedRoom = RoomModel.insertMany(room)
+    const addedRoom = sqlInjector("rooms", room)
     return addedRoom;
 }
 
