@@ -1,6 +1,6 @@
 import { Booking } from "../interfaces/booking"
 import { BookingModel } from "../models/bookings"
-import { sqlInjector, sqlEditor } from "../utils/sqlInjector";
+import { sqlInjector, sqlEditor } from "../utils/sqlFunctions";
 import { connection } from "../mysqlConnect";
 
 export async function getBookings(): Promise<Booking[]>{

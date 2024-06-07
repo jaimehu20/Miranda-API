@@ -1,6 +1,6 @@
 import { Room } from "../interfaces/room"
 import { RoomModel } from "../models/rooms"
-import { sqlEditor, sqlInjector } from "../utils/sqlInjector"
+import { sqlEditor, sqlInjector } from "../utils/sqlFunctions"
 import { connection } from "../mysqlConnect"
 
 export async function getRooms(): Promise<Room[]>{

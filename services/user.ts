@@ -1,6 +1,6 @@
 import { Employee } from "../interfaces/employee";
 import { EmployeeModel } from "../models/employee";
-import { sqlEditor, sqlInjector } from "../utils/sqlInjector";
+import { sqlEditor, sqlInjector } from "../utils/sqlFunctions";
 import { connection } from "../mysqlConnect";
 
 export async function getUsers(): Promise<Employee[]>{
