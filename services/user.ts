@@ -7,7 +7,7 @@ export async function getUsers(): Promise<Employee[]>{
     try {
         connection.connect();
         const queryResult = await new Promise<Employee[]>((resolve, reject) => {
-            connection.query('SELECT * FROM employees', (error, results) => {
+            connection.query('SELECT * FROM employees', (error: Error, results: Employee[]) => {
                 if (error) {
                     reject(error);
                 } else {
@@ -26,7 +26,7 @@ export async function getUser(id : string): Promise<Employee[]>{
     try {
         connection.connect();
         const queryResult = await new Promise<Employee[]>((resolve, reject) => {
-            connection.query(`SELECT * FROM employees WHERE employee_id = ${id}`, (error, results) => {
+            connection.query(`SELECT * FROM employees WHERE employee_id = ${id}`, (error: Error, results: Employee[]) => {
                 if (error) {
                     reject(error);
                 } else {

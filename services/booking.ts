@@ -7,7 +7,7 @@ export async function getBookings(): Promise<Booking[]>{
     try {
         connection.connect();
         const queryResult = await new Promise<Booking[]>((resolve, reject) => {
-            connection.query('SELECT * FROM bookings', (error, results) => {
+            connection.query('SELECT * FROM bookings', (error: Error, results: Booking[]) => {
                 if (error) {
                     reject(error);
                 } else {
@@ -26,7 +26,7 @@ export async function getBooking(id : string): Promise<Booking[]>{
     try {
         connection.connect();
         const queryResult = await new Promise<Booking[]>((resolve, reject) => {
-            connection.query(`SELECT * FROM bookings WHERE booking_id = ${id}`, (error, results) => {
+            connection.query(`SELECT * FROM bookings WHERE booking_id = ${id}`, (error: Error, results: Booking[]) => {
                 if (error) {
                     reject(error);
                 } else {

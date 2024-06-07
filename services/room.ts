@@ -7,7 +7,7 @@ export async function getRooms(): Promise<Room[]>{
     try {
         connection.connect();
         const queryResult = await new Promise<Room[]>((resolve, reject) => {
-            connection.query('SELECT * FROM rooms', (error, results) => {
+            connection.query('SELECT * FROM rooms', (error: any, results: Room[]) => {
                 if (error) {
                     reject(error);
                 } else {
@@ -26,7 +26,7 @@ export async function getRoom(id : string): Promise<Room[]>{
     try {
         connection.connect();
         const queryResult = await new Promise<Room[]>((resolve, reject) => {
-            connection.query(`SELECT * FROM rooms WHERE room_id = ${id}`, (error, results) => {
+            connection.query(`SELECT * FROM rooms WHERE room_id = ${id}`, (error: Error, results: Room[]) => {
                 if (error) {
                     reject(error);
                 } else {

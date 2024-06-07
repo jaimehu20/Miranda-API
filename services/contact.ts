@@ -7,7 +7,7 @@ export async function getComments(): Promise<Reviews[]>{
     try {
         connection.connect();
         const queryResult = await new Promise<Reviews[]>((resolve, reject) => {
-            connection.query('SELECT * FROM reviews', (error, results) => {
+            connection.query('SELECT * FROM reviews', (error: Error, results: Reviews[]) => {
                 if (error) {
                     reject(error);
                 } else {
